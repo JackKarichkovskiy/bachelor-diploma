@@ -10,6 +10,10 @@ public class System {
 	
 	private Scheduler scheduler;
 
+	public void run(){
+		scheduler.go();
+	}
+	
 	public int getUserCount(){
 		return users.size();
 	}

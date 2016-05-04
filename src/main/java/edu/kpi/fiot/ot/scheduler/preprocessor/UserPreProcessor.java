@@ -20,10 +20,7 @@ public class UserPreProcessor implements PreProcessor{
 	
 	private List<User> users;
 	
-	public UserPreProcessor(System system) {
-		this.system = checkNotNull(system);
-		this.queue = system.getScheduler().getQueue();
-		this.users = system.getUsers();
+	public UserPreProcessor() {
 	}
 	
 	@Override
@@ -53,12 +50,25 @@ public class UserPreProcessor implements PreProcessor{
 
 	@Override
 	public long getNextEntryTime() {
+		Set<User> queueUsers = queue.getUsersInQueue();
 		long min = Long.MAX_VALUE;
 		for(User user : users){
-			min = Math.min(min, user.getNextEntryPacketTime());
+			if(!queueUsers.contains(user)){
+				min = Math.min(min, user.getNextEntryPacketTime());
+			}
 		}
 		long currentTime = Scheduler.currentTime();
 		return min < currentTime ? currentTime : min;
+	}
+
+	public System getSystem() {
+		return system;
+	}
+
+	public void setSystem(System system) {
+		this.system = checkNotNull(system);
+		this.queue = system.getScheduler().getQueue();
+		this.users = system.getUsers();
 	}
 
 }

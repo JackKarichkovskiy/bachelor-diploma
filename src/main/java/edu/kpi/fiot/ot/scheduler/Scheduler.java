@@ -21,6 +21,7 @@ public class Scheduler {
 		//this.entryEvents = getEntryEvents();
 		this.proc = proc;
 		this.queue = this.proc.queue;
+		this.preProc = preProc;
 	}
 
 	public void go(){

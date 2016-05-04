@@ -8,13 +8,10 @@ import edu.kpi.fiot.ot.scheduler.Scheduler;
 
 public class RRProcessor extends Processor {
 
-	private final int tau;
-
 	private Core nextSolveCore;
 
-	public RRProcessor(int coreNumber, Queue queue, int tau) {
+	public RRProcessor(int coreNumber, Queue queue) {
 		super(coreNumber, queue);
-		this.tau = tau;
 	}
 
 	@Override
@@ -62,6 +59,7 @@ public class RRProcessor extends Processor {
 						core.setCurrentPacket(packet = queue.getNextPacket());
 					}
 					Scheduler.setCurrentTime(newTime);
+					currentTime = Scheduler.currentTime();
 				}
 			}
 		}
