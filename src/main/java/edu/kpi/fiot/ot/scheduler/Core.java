@@ -20,13 +20,13 @@ public class Core {
 	public void setCurrentPacket(Packet currentPacket) {
 		if (currentPacket != null) {
 			if (isEmpty()) {
-				waitTime += SMO.currentTime() - lastPacketOutTime;
+				waitTime += Scheduler.currentTime() - lastPacketOutTime;
 			}
-			currentPacket.setLastCalcTime(SMO.currentTime());
-			System.out.println("[INFO]-" + SMO.currentTime() + ": Packet " + currentPacket.getId() + "("
+			currentPacket.setLastCalcTime(Scheduler.currentTime());
+			System.out.println("[INFO]-" + Scheduler.currentTime() + ": Packet " + currentPacket.getId() + "("
 					+ currentPacket.getCalcLeft() + ") going to core " + coreNum);
 		} else {
-			lastPacketOutTime = SMO.currentTime();
+			lastPacketOutTime = Scheduler.currentTime();
 		}
 		this.currentPacket = currentPacket;
 	}

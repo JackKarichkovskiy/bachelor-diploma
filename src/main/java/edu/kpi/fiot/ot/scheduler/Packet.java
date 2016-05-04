@@ -1,9 +1,9 @@
 package edu.kpi.fiot.ot.scheduler;
 
 public class Packet {
-	private final long entryTime;
+	private long entryTime;
 
-	private final long deadline;
+	private long deadline;
 	
 	private long calcLeft;
 
@@ -15,15 +15,30 @@ public class Packet {
 
 	private static int gen_id = 1;
 	
+	public Packet() {
+		this.id = gen_id++;
+	}
+	
 	public Packet(long entryTime, long calcTime, long deadline) {
-		super();
+		this();
 		this.entryTime = Math.abs(entryTime);
 		this.deadline = this.entryTime + deadline;
 		this.calcLeft = calcTime;
 		//this.lastCalcTime = this.entryTime;
-		this.id = gen_id++;
 	}
 	
+	public void setEntryTime(long entryTime) {
+		this.entryTime = entryTime;
+	}
+
+	public void setDeadline(long deadline) {
+		this.deadline = deadline;
+	}
+
+	public void setCalcLeft(long calcLeft) {
+		this.calcLeft = calcLeft;
+	}
+
 	public int getId() {
 		return id;
 	}

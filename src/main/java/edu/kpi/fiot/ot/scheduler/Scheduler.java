@@ -1,6 +1,6 @@
 package edu.kpi.fiot.ot.scheduler;
 
-public class SMO {
+public class Scheduler {
 
 	private Queue queue;
 
@@ -8,15 +8,13 @@ public class SMO {
 
 	private int taskCount;
 
-	private double entryIntensity;
-
 	//private EntryEvents entryEvents;
 	
 	private static long currentTime = 0;
 
-	public SMO(int taskCount, double entryIntensity, Processor proc) {
+	public Scheduler(int taskCount, double entryIntensity, Processor proc) {
 		this.taskCount = taskCount;
-		this.entryIntensity = entryIntensity;
+		//this.entryIntensity = entryIntensity;
 		//this.entryEvents = getEntryEvents();
 		this.proc = proc;
 		this.queue = this.proc.queue;
@@ -68,7 +66,7 @@ public class SMO {
 		for(Core core : proc.cores){
 			sum += core.getWaitTime();
 		}
-		return sum / (proc.cores.length * SMO.currentTime());
+		return sum / (proc.cores.length * Scheduler.currentTime());
 	}
 	
 	public double getObsoletePercent(){
@@ -76,7 +74,7 @@ public class SMO {
 	}
 	
 	public double getAverageQueueSize(){
-		double result = (double)queue.getQueueSizeTime() / SMO.currentTime();
+		double result = (double)queue.getQueueSizeTime() / Scheduler.currentTime();
 		return result;
 	}
 	

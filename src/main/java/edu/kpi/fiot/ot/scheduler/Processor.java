@@ -44,7 +44,7 @@ public abstract class Processor {
 		for (Core core : cores) {
 			if (core.isEmpty()) {
 				core.setCurrentPacket(task);
-				long waitTime = SMO.currentTime() - task.getEntryTime();
+				long waitTime = Scheduler.currentTime() - task.getEntryTime();
 				task.setWaitTime(waitTime);
 				return true;
 			}
