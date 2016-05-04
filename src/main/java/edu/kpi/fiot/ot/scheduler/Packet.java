@@ -1,10 +1,10 @@
 package edu.kpi.fiot.ot.scheduler;
 
-import java.util.Random;
-
 public class Packet {
 	private final long entryTime;
 
+	private final long deadline;
+	
 	private long calcLeft;
 
 	private long lastCalcTime;
@@ -14,12 +14,11 @@ public class Packet {
 	private final int id;
 
 	private static int gen_id = 1;
-
-	private static Random ran = new Random(201);
 	
-	public Packet(long entryTime, long calcTime) {
+	public Packet(long entryTime, long calcTime, long deadline) {
 		super();
 		this.entryTime = Math.abs(entryTime);
+		this.deadline = this.entryTime + deadline;
 		this.calcLeft = calcTime;
 		//this.lastCalcTime = this.entryTime;
 		this.id = gen_id++;
@@ -42,6 +41,10 @@ public class Packet {
 
 	public long getEntryTime() {
 		return entryTime;
+	}
+	
+	public long getDeadline() {
+		return deadline;
 	}
 	
 	public long getLastCalcTime() {
