@@ -6,7 +6,7 @@ import static edu.kpi.fiot.ot.utils.ProjectUtils.checkNotNull;
 import edu.kpi.fiot.ot.scheduler.Packet;
 
 public class Service {
-
+	
 	private long prevPacketEntryTime = 0;
 
 	private long nextPacketEntryTime;
@@ -17,6 +17,8 @@ public class Service {
 
 	private String name;
 
+	private User user;
+	
 	private Generator gen;
 
 	public Service(String name, int averageTransferTime, Generator gen) {
@@ -32,8 +34,9 @@ public class Service {
 			prevPacketEntryTime = nextPacketEntryTime;
 
 			packet = new Packet();
-			packet.setEntryTime(prevPacketEntryTime);
+			packet.setCreatingTime(prevPacketEntryTime);
 			packet.setCalcLeft(averageTransferTime);
+			packet.setService(this);
 		}
 
 		nextPacketEntryTime += gen.getNextInteger();
@@ -62,5 +65,13 @@ public class Service {
 
 	public void setNextPacketEntryTime(long nextPacketEntryTime) {
 		this.nextPacketEntryTime = nextPacketEntryTime;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

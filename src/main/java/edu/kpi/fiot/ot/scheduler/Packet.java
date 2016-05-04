@@ -1,6 +1,11 @@
 package edu.kpi.fiot.ot.scheduler;
 
+import edu.kpi.fiot.ot.system.Service;
+import edu.kpi.fiot.ot.system.User;
+
 public class Packet {
+	private long creatingTime;
+
 	private long entryTime;
 
 	private long deadline;
@@ -10,6 +15,10 @@ public class Packet {
 	private long lastCalcTime;
 
 	private long waitTime;
+	
+	private User user;
+	
+	private Service service;
 
 	private final int id;
 
@@ -76,5 +85,29 @@ public class Packet {
 
 	public void setWaitTime(long waitTime) {
 		this.waitTime = waitTime;
+	}
+
+	public long getCreatingTime() {
+		return creatingTime;
+	}
+
+	public void setCreatingTime(long creatingTime) {
+		this.creatingTime = creatingTime;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Service getService() {
+		return service;
+	}
+
+	public void setService(Service service) {
+		this.service = service;
 	}
 }

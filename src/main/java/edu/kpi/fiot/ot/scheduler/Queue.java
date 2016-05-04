@@ -1,5 +1,9 @@
 package edu.kpi.fiot.ot.scheduler;
 
+import java.util.Set;
+
+import edu.kpi.fiot.ot.system.User;
+
 public abstract class Queue {
 
 	protected long queueSizeTime = 0;
@@ -15,4 +19,6 @@ public abstract class Queue {
 	public void setQueueSizeTime(long queueSizeTime) {
 		this.queueSizeTime = queueSizeTime;
 	}
+	
+	public abstract Set<User> getUsersInQueue();
 }

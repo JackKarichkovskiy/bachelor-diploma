@@ -1,20 +1,23 @@
 package edu.kpi.fiot.ot.scheduler;
 
+import edu.kpi.fiot.ot.scheduler.preprocessor.PreProcessor;
+
 public class Scheduler {
 
 	private Queue queue;
 
 	private Processor proc;
-
-	private int taskCount;
+	
+	private PreProcessor preProc;
+	
+	private long timeLimit;
 
 	//private EntryEvents entryEvents;
 	
 	private static long currentTime = 0;
 
-	public Scheduler(int taskCount, double entryIntensity, Processor proc) {
-		this.taskCount = taskCount;
-		//this.entryIntensity = entryIntensity;
+	public Scheduler(int timeLimit, Processor proc, PreProcessor preProc) {
+		this.timeLimit = timeLimit;
 		//this.entryEvents = getEntryEvents();
 		this.proc = proc;
 		this.queue = this.proc.queue;
@@ -23,22 +26,37 @@ public class Scheduler {
 	public void go(){
 		currentTime = 0;
 		
-		while(proc.obsoletePackets.size() + proc.donePackets.size() < taskCount){
-//			long nextEntry = entryEvents.getNextEvent();
-//			long nextCalc = proc.firstCalcEnd();
-//			if(nextEntry < nextCalc){
-//				currentTime = nextEntry;
-//				Packet newPacket = Packet.getRandomPacket();
-//				if(!proc.tryToAddNewPacket(newPacket))
-//					queue.addPacket(newPacket);
-//				entryEvents.currentEvent++;
-//			}else{
-//				//currentTime = nextCalc;
-//				proc.solvePackets();
-//			}
+		while(currentTime < timeLimit){
+			long nextEntry = preProc.getNextEntryTime();
+			long nextCalc = proc.firstCalcEnd();
+			if(nextEntry < nextCalc){
+				currentTime = nextEntry;
+				Packet newPacket = preProc.getNextPacket();
+				if(!proc.tryToAddNewPacket(newPacket))
+					queue.addPacket(newPacket);
+			}else{
+				//currentTime = nextCalc;
+				proc.solvePackets();
+			}
 		}
 	}
 	
+	public Queue getQueue() {
+		return queue;
+	}
+
+	public void setQueue(Queue queue) {
+		this.queue = queue;
+	}
+
+	public Processor getProc() {
+		return proc;
+	}
+
+	public void setProc(Processor proc) {
+		this.proc = proc;
+	}
+
 	public double getAverageWaitTime(){
 		double sum = .0;
 		for(Packet task : proc.obsoletePackets){
@@ -70,7 +88,7 @@ public class Scheduler {
 	}
 	
 	public double getObsoletePercent(){
-		return (double)proc.obsoletePackets.size() / taskCount;
+		return (double)proc.obsoletePackets.size() / (proc.obsoletePackets.size() + proc.donePackets.size());
 	}
 	
 	public double getAverageQueueSize(){
