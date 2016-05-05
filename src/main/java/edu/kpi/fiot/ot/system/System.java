@@ -14,6 +14,10 @@ public class System {
 		scheduler.go();
 	}
 	
+	public double getChannelCapacity(){
+		return scheduler.getChannelCapacity();
+	}
+	
 	public int getUserCount(){
 		return users.size();
 	}

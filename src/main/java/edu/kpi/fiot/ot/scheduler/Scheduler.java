@@ -16,7 +16,7 @@ public class Scheduler {
 
 	private static long currentTime = 0;
 
-	public Scheduler(int timeLimit, Processor proc, PreProcessor preProc) {
+	public Scheduler(long timeLimit, Processor proc, PreProcessor preProc) {
 		this.timeLimit = timeLimit;
 		// this.entryEvents = getEntryEvents();
 		this.proc = proc;
@@ -59,7 +59,9 @@ public class Scheduler {
 	}
 
 	public double getChannelCapacity() {
-		return (double) proc.donePackets.size() / currentTime();
+		double donePacketsCount = (double) proc.donePackets.size();
+		long currentTime = currentTime();
+		return donePacketsCount / currentTime;
 	}
 
 	public double getAverageWaitTime() {

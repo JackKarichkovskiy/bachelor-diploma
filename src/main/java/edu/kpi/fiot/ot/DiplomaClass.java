@@ -1,32 +1,28 @@
 package edu.kpi.fiot.ot;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.knowm.xchart.SwingWrapper;
+import org.knowm.xchart.internal.chartpart.Chart;
 
-import edu.kpi.fiot.ot.scheduler.Processor;
-import edu.kpi.fiot.ot.scheduler.Queue;
-import edu.kpi.fiot.ot.scheduler.Scheduler;
-import edu.kpi.fiot.ot.scheduler.preprocessor.PreProcessor;
-import edu.kpi.fiot.ot.scheduler.preprocessor.UserPreProcessor;
-import edu.kpi.fiot.ot.scheduler.rr.RRProcessor;
-import edu.kpi.fiot.ot.scheduler.rr.RRQueue;
-import edu.kpi.fiot.ot.system.Service;
-import edu.kpi.fiot.ot.system.System;
-import edu.kpi.fiot.ot.system.User;
-import edu.kpi.fiot.ot.system.generator.PuassonGenerator;
+import edu.kpi.fiot.ot.test.ChannelCapacityChart;
 
 public class DiplomaClass {
 
 	public static void main(String[] args) {
-		int constCoreNum = 2;
-		
+		Chart channelCapacityChart = new ChannelCapacityChart().getChart();
+		new SwingWrapper<>(channelCapacityChart).displayChart();
+	}
+
+	/*private static void runTest() {
+		int constCoreNum = 1;
+
 		// System configuring
 		System system = new System();
 		List<Service> services = new ArrayList<Service>() {
 			{
-				add(new Service("Video call", 15, new PuassonGenerator(0.02)));
-				add(new Service("Video buffering", 50, new PuassonGenerator(0.006666)));
-				add(new Service("Email service", 30, new PuassonGenerator(0.05)));
+				add(new Service("Video call", 500, new PuassonGenerator(0.002)));
+				add(new Service("Video buffering", 1000, new PuassonGenerator(0.001)));
+				// add(new Service("Email service", 30, new
+				// PuassonGenerator(0.05)));
 			}
 		};
 		User user = new User();
@@ -39,11 +35,12 @@ public class DiplomaClass {
 		Queue queue = new RRQueue();
 		Processor proc = new RRProcessor(constCoreNum, queue);
 		PreProcessor preProc = new UserPreProcessor();
-		Scheduler scheduler = new Scheduler(1000, proc, preProc);
+		Scheduler scheduler = new Scheduler(10000, proc, preProc);
 		system.setScheduler(scheduler);
 		preProc.setSystem(system);
 
 		system.run();
-	}
 
+		java.lang.System.out.println(system.getChannelCapacity());
+	}*/
 }

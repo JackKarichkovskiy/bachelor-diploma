@@ -14,66 +14,41 @@ public class RRProcessor extends Processor {
 		super(coreNumber, queue);
 	}
 
-	@Override
-	public long firstCalcEnd() {
-		nextSolveCore = null;
-		long min = Long.MAX_VALUE;
-		for (Core core : cores) {
-			if (!core.isEmpty()) {
-				Packet packet = core.getCurrentPacket();
-				long lastCalcTime = packet.getLastCalcTime();
-				min = Math.min(min, lastCalcTime + packet.getCalcLeft());
-			}
-		}
-
-		return min;
-	}
+	/*
+	 * @Override public long firstCalcEnd() { nextSolveCore = null; long min =
+	 * Long.MAX_VALUE; for (Core core : cores) { if (!core.isEmpty()) { Packet
+	 * packet = core.getCurrentPacket(); long lastCalcTime =
+	 * packet.getLastCalcTime(); min = Math.min(min, lastCalcTime +
+	 * packet.getCalcLeft()); } }
+	 * 
+	 * return min; }
+	 */
 
 	public void solvePackets() {
 		long currentTime = Scheduler.currentTime();
-		//long newTime = currentTime + tau;
+		long min = Long.MAX_VALUE;
+		Core solveCore = null;
 		for (Core core : cores) {
 			if (!core.isEmpty()) {
 				Packet packet = core.getCurrentPacket();
-				long deadline = packet.getDeadline();
-				long calcLeft = packet.getCalcLeft();
 				long lastCalcTime = packet.getLastCalcTime();
-				
-				// DEADLINE PROCESSING
-//				boolean isDeadline = calcLeft < tau ? lastCalcTime + calcLeft > deadline
-//						: lastCalcTime + tau > deadline;
-//				if (isDeadline) {
-//					obsoletePackets.add(packet);
-//					System.out.println("[INFO]-" + currentTime + ": Packet " + packet.getId() + "(" + packet.getCalcLeft()
-//							+ ") is going to OBSOLETED packets");
-//					core.setCurrentPacket(packet = queue.getNextPacket());
-//				}
-				if (packet != null) {
-					packet.subCalcLeft(calcLeft = packet.getCalcLeft());
-					long newTime = currentTime + calcLeft;
-					packet.setLastCalcTime(newTime);
-					if (packet.getCalcLeft() == 0) {
-						donePackets.add(packet);
-						System.out.println("[INFO]-" + newTime + ": Packet " + packet.getId() + "("
-								+ packet.getCalcLeft() + ") is going to DONE packets");
-						core.setCurrentPacket(packet = queue.getNextPacket());
-					}
-					Scheduler.setCurrentTime(newTime);
-					currentTime = Scheduler.currentTime();
+				long calcLeft = packet.getCalcLeft();
+				if (min > lastCalcTime + calcLeft) {
+					solveCore = core;
+					min = lastCalcTime + calcLeft;
 				}
 			}
 		}
-
-		// ROLLING TASKS IN CORES
-//		Packet prevPacket = cores[cores.length - 1].getCurrentPacket();
-//		for(int i = 0; i < cores.length; i++){
-//			Core core = cores[i];
-//			Packet packet = core.getCurrentPacket();
-//			core.setCurrentPacket(prevPacket);
-//			prevPacket = packet;
-//		}
+		if (solveCore != null) {
+			Packet packet = solveCore.getCurrentPacket();
+			long newTime = packet.getLastCalcTime() + packet.getCalcLeft();
+			Scheduler.setCurrentTime(newTime);
+			donePackets.add(packet);
+			System.out.println("[INFO]-" + newTime + ": Packet " + packet.getId() + "(" + packet.getCalcLeft()
+					+ ") is going to DONE packets");
+			Packet nextPacket = queue.getNextPacket();
+			solveCore.setCurrentPacket(nextPacket);
+		}
 	}
-
-	
 
 }
