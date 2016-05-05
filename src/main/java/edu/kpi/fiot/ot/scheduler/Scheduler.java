@@ -7,41 +7,41 @@ public class Scheduler {
 	private Queue queue;
 
 	private Processor proc;
-	
+
 	private PreProcessor preProc;
-	
+
 	private long timeLimit;
 
-	//private EntryEvents entryEvents;
-	
+	// private EntryEvents entryEvents;
+
 	private static long currentTime = 0;
 
 	public Scheduler(int timeLimit, Processor proc, PreProcessor preProc) {
 		this.timeLimit = timeLimit;
-		//this.entryEvents = getEntryEvents();
+		// this.entryEvents = getEntryEvents();
 		this.proc = proc;
 		this.queue = this.proc.queue;
 		this.preProc = preProc;
 	}
 
-	public void go(){
+	public void go() {
 		currentTime = 0;
-		
-		while(currentTime < timeLimit){
+
+		while (currentTime < timeLimit) {
 			long nextEntry = preProc.getNextEntryTime();
 			long nextCalc = proc.firstCalcEnd();
-			if(nextEntry < nextCalc){
+			if (nextEntry < nextCalc) {
 				currentTime = nextEntry;
 				Packet newPacket = preProc.getNextPacket();
-				if(!proc.tryToAddNewPacket(newPacket))
+				if (!proc.tryToAddNewPacket(newPacket))
 					queue.addPacket(newPacket);
-			}else{
-				//currentTime = nextCalc;
+			} else {
+				// currentTime = nextCalc;
 				proc.solvePackets();
 			}
 		}
 	}
-	
+
 	public Queue getQueue() {
 		return queue;
 	}
@@ -58,45 +58,49 @@ public class Scheduler {
 		this.proc = proc;
 	}
 
-	public double getAverageWaitTime(){
+	public double getChannelCapacity() {
+		return (double) proc.donePackets.size() / currentTime();
+	}
+
+	public double getAverageWaitTime() {
 		double sum = .0;
-		for(Packet task : proc.obsoletePackets){
+		for (Packet task : proc.obsoletePackets) {
 			sum += task.getWaitTime();
 		}
-		for(Packet task : proc.donePackets){
+		for (Packet task : proc.donePackets) {
 			sum += task.getWaitTime();
 		}
 		return sum / (proc.obsoletePackets.size() + proc.donePackets.size());
 	}
-	
-	public long getWaitTime(){
+
+	public long getWaitTime() {
 		long sum = 0;
-		for(Packet task : proc.obsoletePackets){
+		for (Packet task : proc.obsoletePackets) {
 			sum += task.getWaitTime();
 		}
-		for(Packet task : proc.donePackets){
+		for (Packet task : proc.donePackets) {
 			sum += task.getWaitTime();
 		}
 		return sum;
 	}
-	
-	public double getAverageCoreWaiting(){
+
+	public double getAverageCoreWaiting() {
 		double sum = .0;
-		for(Core core : proc.cores){
+		for (Core core : proc.cores) {
 			sum += core.getWaitTime();
 		}
 		return sum / (proc.cores.length * Scheduler.currentTime());
 	}
-	
-	public double getObsoletePercent(){
-		return (double)proc.obsoletePackets.size() / (proc.obsoletePackets.size() + proc.donePackets.size());
+
+	public double getObsoletePercent() {
+		return (double) proc.obsoletePackets.size() / (proc.obsoletePackets.size() + proc.donePackets.size());
 	}
-	
-	public double getAverageQueueSize(){
-		double result = (double)queue.getQueueSizeTime() / Scheduler.currentTime();
+
+	public double getAverageQueueSize() {
+		double result = (double) queue.getQueueSizeTime() / Scheduler.currentTime();
 		return result;
 	}
-	
+
 	public static long currentTime() {
 		return currentTime;
 	}
@@ -104,18 +108,18 @@ public class Scheduler {
 	public static void setCurrentTime(long newTime) {
 		if (newTime >= currentTime) {
 			currentTime = newTime;
-		}else{
+		} else {
 			throw new IllegalArgumentException();
 		}
 	}
 
-//	private EntryEvents getEntryEvents() {
-//		long[] entries = new long[taskCount];
-//		for (int i = 0; i < entries.length; i++) {
-//			entries[i] = (long)(i / entryIntensity);
-//		}
-//		EntryEvents entriesObj = new EntryEvents();
-//		entriesObj.entries = entries;
-//		return entriesObj;
-//	}
+	// private EntryEvents getEntryEvents() {
+	// long[] entries = new long[taskCount];
+	// for (int i = 0; i < entries.length; i++) {
+	// entries[i] = (long)(i / entryIntensity);
+	// }
+	// EntryEvents entriesObj = new EntryEvents();
+	// entriesObj.entries = entries;
+	// return entriesObj;
+	// }
 }
