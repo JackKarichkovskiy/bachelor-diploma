@@ -1,7 +1,12 @@
 package edu.kpi.fiot.ot.scheduler;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import edu.kpi.fiot.ot.system.Service;
+import edu.kpi.fiot.ot.system.User;
 
 public abstract class Processor {
 	
@@ -51,5 +56,27 @@ public abstract class Processor {
 		}
 
 		return false;
+	}
+	
+	public Set<User> getUsersInProcessor(){
+		Set<User> users = new HashSet<>();
+		for(Core core : cores){
+			Packet packet = core.getCurrentPacket();
+			if(packet != null){
+				users.add(packet.getUser());
+			}
+		}
+		return users;
+	}
+	
+	public Set<Service> getServicesInProcessor(){
+		Set<Service> services = new HashSet<>();
+		for(Core core : cores){
+			Packet packet = core.getCurrentPacket();
+			if(packet != null){
+				services.add(packet.getService());
+			}
+		}
+		return services;
 	}
 }

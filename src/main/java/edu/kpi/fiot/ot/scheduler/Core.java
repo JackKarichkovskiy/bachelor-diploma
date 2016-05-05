@@ -23,8 +23,7 @@ public class Core {
 				waitTime += Scheduler.currentTime() - lastPacketOutTime;
 			}
 			currentPacket.setLastCalcTime(Scheduler.currentTime());
-			System.out.println("[INFO]-" + Scheduler.currentTime() + ": Packet " + currentPacket.getId() + "("
-					+ currentPacket.getCalcLeft() + ") going to core " + coreNum);
+			System.out.println("[INFO]-" + Scheduler.currentTime() + ": "+ currentPacket +" going to core " + coreNum);
 		} else {
 			lastPacketOutTime = Scheduler.currentTime();
 		}

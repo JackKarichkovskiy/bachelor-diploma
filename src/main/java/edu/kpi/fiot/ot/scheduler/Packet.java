@@ -110,4 +110,9 @@ public class Packet {
 	public void setService(Service service) {
 		this.service = service;
 	}
+	
+	@Override
+	public String toString() {
+		return "Packet " + getId() + "-U" + getUser().getId() + "-S" + getService().getId() + "(" + getCalcLeft() +")";
+	}
 }

@@ -2,6 +2,7 @@ package edu.kpi.fiot.ot.scheduler;
 
 import java.util.Set;
 
+import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
 
 public abstract class Queue {
@@ -21,4 +22,6 @@ public abstract class Queue {
 	}
 	
 	public abstract Set<User> getUsersInQueue();
+	
+	public abstract Set<Service> getServicesInQueue();
 }

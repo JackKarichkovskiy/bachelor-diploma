@@ -1,10 +1,14 @@
 package edu.kpi.fiot.ot.scheduler.rr;
 
+import java.util.Set;
+
 import edu.kpi.fiot.ot.scheduler.Core;
 import edu.kpi.fiot.ot.scheduler.Packet;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.system.Service;
+import edu.kpi.fiot.ot.system.User;
 
 public class RRProcessor extends Processor {
 
@@ -44,11 +48,10 @@ public class RRProcessor extends Processor {
 			long newTime = packet.getLastCalcTime() + packet.getCalcLeft();
 			Scheduler.setCurrentTime(newTime);
 			donePackets.add(packet);
-			System.out.println("[INFO]-" + newTime + ": Packet " + packet.getId() + "(" + packet.getCalcLeft()
-					+ ") is going to DONE packets");
+			System.out.println("[INFO]-" + newTime + ": " + packet + " is going to DONE packets");
 			Packet nextPacket = queue.getNextPacket();
 			solveCore.setCurrentPacket(nextPacket);
 		}
 	}
-
+	
 }

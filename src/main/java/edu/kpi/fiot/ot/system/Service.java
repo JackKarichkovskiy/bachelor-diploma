@@ -21,7 +21,16 @@ public class Service {
 	
 	private Generator gen;
 
+	private final int id;
+
+	private static int gen_id = 1;
+	
+	public Service() {
+		this.id = gen_id++;
+	}
+	
 	public Service(String name, int averageTransferTime, Generator gen) {
+		this();
 		this.name = checkNotNull(name);
 		this.gen = checkNotNull(gen);
 		this.averageTransferTime = averageTransferTime;
@@ -73,5 +82,9 @@ public class Service {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -1,6 +1,8 @@
 package edu.kpi.fiot.ot.system;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Scheduler;
 
@@ -12,6 +14,24 @@ public class System {
 
 	public void run(){
 		scheduler.go();
+	}
+	
+	public Set<User> getUsersInSystem(){
+		Set<User> users = new HashSet<>();
+		Set<User> usersInQueue = scheduler.getQueue().getUsersInQueue();
+		Set<User> usersInProc = scheduler.getProc().getUsersInProcessor();
+		users.addAll(usersInQueue);
+		users.addAll(usersInProc);
+		return users;
+	}
+	
+	public Set<Service> getServicesInSystem(){
+		Set<Service> services = new HashSet<>();
+		Set<Service> servicesInQueue = scheduler.getQueue().getServicesInQueue();
+		Set<Service> servicesInProc = scheduler.getProc().getServicesInProcessor();
+		services.addAll(servicesInQueue);
+		services.addAll(servicesInProc);
+		return services;
 	}
 	
 	public double getChannelCapacity(){

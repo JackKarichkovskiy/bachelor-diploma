@@ -6,9 +6,17 @@ import java.util.List;
 import edu.kpi.fiot.ot.scheduler.Packet;
 
 public class User {
+
+	private final int id;
+
+	private static int gen_id = 1;
 	
 	private List<Service> services = new ArrayList<>();
 
+	public User() {
+		this.id = gen_id++;
+	}
+	
 	public List<Service> getServices() {
 		return services;
 	}
@@ -46,5 +54,9 @@ public class User {
 			return packet;
 		}
 		return null;
+	}
+
+	public int getId() {
+		return id;
 	}
 }

@@ -12,26 +12,26 @@ import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.System;
 import edu.kpi.fiot.ot.system.User;
 
-public class UserPreProcessor implements PreProcessor{
+public class UserServicePreProcessor implements PreProcessor {
 
 	private System system;
-	
+
 	private Queue queue;
-	
+
 	private List<User> users;
-	
-	public UserPreProcessor() {
+
+	public UserServicePreProcessor() {
 	}
-	
+
 	@Override
 	public Packet getNextPacket() {
-		Set<User> systemUsers = system.getUsersInSystem();
+		Set<Service> systemServices = system.getServicesInSystem();
 		long min = Long.MAX_VALUE;
 		Service minService = null;
-		for(User user : users){
-			if(!systemUsers.contains(user)){
-				List<Service> services = user.getServices();
-				for (Service service : services) {
+		for (User user : users) {
+			List<Service> services = user.getServices();
+			for (Service service : services) {
+				if (!systemServices.contains(service)) {
 					if (min >= service.getNextPacketEntryTime()) {
 						min = service.getNextPacketEntryTime();
 						minService = service;
@@ -39,8 +39,8 @@ public class UserPreProcessor implements PreProcessor{
 				}
 			}
 		}
-		
-		if(minService != null){
+
+		if (minService != null) {
 			Packet packet = minService.pollPacket();
 			packet.setUser(minService.getUser());
 			return packet;
@@ -50,11 +50,16 @@ public class UserPreProcessor implements PreProcessor{
 
 	@Override
 	public long getNextEntryTime() {
-		Set<User> systemUsers = system.getUsersInSystem();
+		Set<Service> systemServices = system.getServicesInSystem();
 		long min = Long.MAX_VALUE;
-		for(User user : users){
-			if(!systemUsers.contains(user)){
-				min = Math.min(min, user.getNextEntryPacketTime());
+		for (User user : users) {
+			List<Service> services = user.getServices();
+			for (Service service : services) {
+				if (!systemServices.contains(service)) {
+					if (min >= service.getNextPacketEntryTime()) {
+						min = service.getNextPacketEntryTime();
+					}
+				}
 			}
 		}
 		long currentTime = Scheduler.currentTime();
