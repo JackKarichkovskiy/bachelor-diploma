@@ -9,6 +9,10 @@ import org.knowm.xchart.internal.chartpart.Chart;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.scheduler.mt.MTProcessor;
+import edu.kpi.fiot.ot.scheduler.mt.MTQueue;
+import edu.kpi.fiot.ot.scheduler.pf.PFProcessor;
+import edu.kpi.fiot.ot.scheduler.pf.PFQueue;
 import edu.kpi.fiot.ot.scheduler.preprocessor.PreProcessor;
 import edu.kpi.fiot.ot.scheduler.preprocessor.UserPreProcessor;
 import edu.kpi.fiot.ot.scheduler.preprocessor.UserServicePreProcessor;
@@ -17,26 +21,38 @@ import edu.kpi.fiot.ot.scheduler.rr.RRQueue;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.System;
 import edu.kpi.fiot.ot.system.User;
-import edu.kpi.fiot.ot.system.generator.PuassonGenerator;
 import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class ChannelCapacityChart extends AbstractTestChart {
 
 	private static final int CORE_NUMBER = 100;
 	
-	private static final long TIME_LIMIT = 5000;
+	private static final long TIME_LIMIT = 1000;
 	
 	@Override
 	public Chart getChart() {
 		XYChart templateChart = getTemplateChart("Channel Capacity Chart", "User count", "Channel Capacity");
 		
-		double[] userCounts = constructUserCounts(1, 50, 50);
+		double[] userCounts = constructUserCounts(1, 100, 20);
 		java.lang.System.out.println("--------RR without framework--------");
 		double[] userRRCapacities = getUserRRSchedulerChannelCapacities(userCounts);
 		java.lang.System.out.println("--------RR with framework--------");
 		double[] userServiceRRCapacities = getUserServiceRRSchedulerChannelCapacities(userCounts);
+		java.lang.System.out.println("--------MT without framework--------");
+		double[] userMTCapacities = getUserMTSchedulerChannelCapacities(userCounts);
+		java.lang.System.out.println("--------MT with framework--------");
+		double[] userServiceMTCapacities = getUserServiceMTSchedulerChannelCapacities(userCounts);
+		java.lang.System.out.println("--------PF without framework--------");
+		double[] userPFCapacities = getUserPFSchedulerChannelCapacities(userCounts);
+		java.lang.System.out.println("--------PF with framework--------");
+		double[] userServicePFCapacities = getUserServicePFSchedulerChannelCapacities(userCounts);
+		
 		templateChart.addSeries("RR without framework", userCounts, userRRCapacities);
 		templateChart.addSeries("RR with framework", userCounts, userServiceRRCapacities);
+		templateChart.addSeries("MT without framework", userCounts, userMTCapacities);
+		templateChart.addSeries("MT with framework", userCounts, userServiceMTCapacities);
+		templateChart.addSeries("PF without framework", userCounts, userPFCapacities);
+		templateChart.addSeries("PF with framework", userCounts, userServicePFCapacities);
 		
 		return templateChart;
 	}
@@ -85,6 +101,106 @@ public class ChannelCapacityChart extends AbstractTestChart {
 			// Scheduler configuring
 			Queue queue = new RRQueue();
 			Processor proc = new RRProcessor(CORE_NUMBER, queue);
+			PreProcessor preProc = new UserServicePreProcessor();
+			Scheduler scheduler = new Scheduler(TIME_LIMIT, proc, preProc);
+			system.setScheduler(scheduler);
+			preProc.setSystem(system);
+			
+			system.run();
+			
+			result[i] = system.getChannelCapacity();
+			
+			java.lang.System.out.println("----------------------------------");
+		}
+
+		return result;
+	}
+	
+	private double[] getUserMTSchedulerChannelCapacities(double[] userNums) {
+		double[] result = new double[userNums.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			double userCount = userNums[i];
+			System system = constructSystemWithoutScheduler(userCount);
+			
+			// Scheduler configuring
+			Queue queue = new MTQueue();
+			Processor proc = new MTProcessor(CORE_NUMBER, queue);
+			PreProcessor preProc = new UserPreProcessor();
+			Scheduler scheduler = new Scheduler(TIME_LIMIT, proc, preProc);
+			system.setScheduler(scheduler);
+			preProc.setSystem(system);
+			
+			system.run();
+			
+			result[i] = system.getChannelCapacity();
+			
+			java.lang.System.out.println("----------------------------------");
+		}
+
+		return result;
+	}
+	
+	private double[] getUserServiceMTSchedulerChannelCapacities(double[] userNums) {
+		double[] result = new double[userNums.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			double userCount = userNums[i];
+			System system = constructSystemWithoutScheduler(userCount);
+			
+			// Scheduler configuring
+			Queue queue = new MTQueue();
+			Processor proc = new MTProcessor(CORE_NUMBER, queue);
+			PreProcessor preProc = new UserServicePreProcessor();
+			Scheduler scheduler = new Scheduler(TIME_LIMIT, proc, preProc);
+			system.setScheduler(scheduler);
+			preProc.setSystem(system);
+			
+			system.run();
+			
+			result[i] = system.getChannelCapacity();
+			
+			java.lang.System.out.println("----------------------------------");
+		}
+
+		return result;
+	}
+	
+	private double[] getUserPFSchedulerChannelCapacities(double[] userNums) {
+		double[] result = new double[userNums.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			double userCount = userNums[i];
+			System system = constructSystemWithoutScheduler(userCount);
+			
+			// Scheduler configuring
+			Queue queue = new PFQueue();
+			Processor proc = new PFProcessor(CORE_NUMBER, queue);
+			PreProcessor preProc = new UserPreProcessor();
+			Scheduler scheduler = new Scheduler(TIME_LIMIT, proc, preProc);
+			system.setScheduler(scheduler);
+			preProc.setSystem(system);
+			
+			system.run();
+			
+			result[i] = system.getChannelCapacity();
+			
+			java.lang.System.out.println("----------------------------------");
+		}
+
+		return result;
+	}
+	
+	private double[] getUserServicePFSchedulerChannelCapacities(double[] userNums) {
+		double[] result = new double[userNums.length];
+		
+		for (int i = 0; i < result.length; i++) {
+			double userCount = userNums[i];
+			System system = constructSystemWithoutScheduler(userCount);
+			
+			// Scheduler configuring
+			Queue queue = new PFQueue();
+			Processor proc = new PFProcessor(CORE_NUMBER, queue);
 			PreProcessor preProc = new UserServicePreProcessor();
 			Scheduler scheduler = new Scheduler(TIME_LIMIT, proc, preProc);
 			system.setScheduler(scheduler);

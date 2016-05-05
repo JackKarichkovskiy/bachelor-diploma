@@ -1,20 +1,14 @@
-package edu.kpi.fiot.ot.scheduler.rr;
-
-import java.util.Set;
+package edu.kpi.fiot.ot.scheduler.mt;
 
 import edu.kpi.fiot.ot.scheduler.Core;
 import edu.kpi.fiot.ot.scheduler.Packet;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
-import edu.kpi.fiot.ot.system.Service;
-import edu.kpi.fiot.ot.system.User;
 
-public class RRProcessor extends Processor {
+public class MTProcessor extends Processor {
 
-	private int currentCoreNum = 0;
-
-	public RRProcessor(int coreNumber, Queue queue) {
+	public MTProcessor(int coreNumber, Queue queue) {
 		super(coreNumber, queue);
 	}
 
@@ -54,19 +48,4 @@ public class RRProcessor extends Processor {
 		}
 	}
 	
-	@Override
-	public boolean tryToAddNewPacket(Packet packet) {
-		for(int j = 0; j < cores.length; 
-				currentCoreNum = (currentCoreNum + 1) % cores.length, j++){
-			Core core;
-			if((core = cores[currentCoreNum]).isEmpty()){
-				core.setCurrentPacket(packet);
-				long waitTime = Scheduler.currentTime() - packet.getEntryTime();
-				packet.setWaitTime(waitTime);
-				return true;
-			}
-		}
-		
-		return false;
-	}
 }
