@@ -7,6 +7,7 @@ import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.Styler.LegendPosition;
 
 public abstract class AbstractTestChart implements TestChart{
+
 	
 	protected XYChart getTemplateChart(String title, String xAxisTitle, String yAxisTitle){
 		// Create Chart

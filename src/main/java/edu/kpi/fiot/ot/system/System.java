@@ -38,6 +38,10 @@ public class System {
 		return scheduler.getChannelCapacity();
 	}
 	
+	public double getWaitTime(){
+		return scheduler.getWaitTime();
+	}
+	
 	public int getUserCount(){
 		return users.size();
 	}

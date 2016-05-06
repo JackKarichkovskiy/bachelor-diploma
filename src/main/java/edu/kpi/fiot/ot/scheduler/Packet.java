@@ -28,10 +28,10 @@ public class Packet {
 		this.id = gen_id++;
 	}
 	
-	public Packet(long entryTime, long calcTime, long deadline) {
+	public Packet(long creatingTime, long calcTime, long deadline) {
 		this();
-		this.entryTime = Math.abs(entryTime);
-		this.deadline = this.entryTime + deadline;
+		this.creatingTime = creatingTime;
+		this.deadline = this.creatingTime + deadline;
 		this.calcLeft = calcTime;
 		//this.lastCalcTime = this.entryTime;
 	}

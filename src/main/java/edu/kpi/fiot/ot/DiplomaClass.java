@@ -4,12 +4,18 @@ import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.internal.chartpart.Chart;
 
 import edu.kpi.fiot.ot.test.ChannelCapacityChart;
+import edu.kpi.fiot.ot.test.PacketWaitTimeChart;
+import edu.kpi.fiot.ot.test.SimulationClass;
 
 public class DiplomaClass {
 
 	public static void main(String[] args) {
-		Chart channelCapacityChart = new ChannelCapacityChart().getChart();
+		SimulationClass simula = new SimulationClass();
+		simula.runSimulation(1, 100, 20);
+		Chart channelCapacityChart = new ChannelCapacityChart().getChart(simula);
 		new SwingWrapper<>(channelCapacityChart).displayChart();
+		Chart packetWaitTimeChart = new PacketWaitTimeChart().getChart(simula);
+		new SwingWrapper<>(packetWaitTimeChart).displayChart();
 	}
 
 	/*private static void runTest() {

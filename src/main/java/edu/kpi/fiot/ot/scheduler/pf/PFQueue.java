@@ -30,7 +30,7 @@ public class PFQueue extends Queue {
 	public Packet getNextPacket() {
 		Packet packet = queue.poll();
 		if (packet != null) {
-			long waitTime = Scheduler.currentTime() - packet.getEntryTime();
+			long waitTime = Scheduler.currentTime() - packet.getCreatingTime();
 			packet.setWaitTime(waitTime);
 			queueSizeTime += (Scheduler.currentTime() - lastEvent) * (queue.size() + 1);
 			lastEvent = Scheduler.currentTime();
@@ -42,6 +42,7 @@ public class PFQueue extends Queue {
 	@Override
 	public void addPacket(Packet packet) {
 		System.out.println("[INFO]-" + Scheduler.currentTime() + ": " + packet + " adding to the queue");
+		packet.setEntryTime(Scheduler.currentTime());
 		queue.add(packet);
 		
 		if (queue.size() > 1) {

@@ -61,7 +61,7 @@ public class RRProcessor extends Processor {
 			Core core;
 			if((core = cores[currentCoreNum]).isEmpty()){
 				core.setCurrentPacket(packet);
-				long waitTime = Scheduler.currentTime() - packet.getEntryTime();
+				long waitTime = Scheduler.currentTime() - packet.getCreatingTime();
 				packet.setWaitTime(waitTime);
 				return true;
 			}

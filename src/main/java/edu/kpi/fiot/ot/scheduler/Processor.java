@@ -49,7 +49,7 @@ public abstract class Processor {
 		for (Core core : cores) {
 			if (core.isEmpty()) {
 				core.setCurrentPacket(task);
-				long waitTime = Scheduler.currentTime() - task.getEntryTime();
+				long waitTime = Scheduler.currentTime() - task.getCreatingTime();
 				task.setWaitTime(waitTime);
 				return true;
 			}
