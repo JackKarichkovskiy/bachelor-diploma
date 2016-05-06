@@ -22,9 +22,9 @@ import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class SimulationClass {
 
-	private static final int CORE_NUMBER = 100;
+	private static final int CORE_NUMBER = 1;
 
-	private static final long TIME_LIMIT = 1000;
+	private static final long TIME_LIMIT = 100;
 
 	private double[] userCounts;
 	

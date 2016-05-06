@@ -1,6 +1,10 @@
 package edu.kpi.fiot.ot.scheduler;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.kpi.fiot.ot.scheduler.preprocessor.PreProcessor;
+import edu.kpi.fiot.ot.system.User;
 
 public class Scheduler {
 
@@ -94,6 +98,20 @@ public class Scheduler {
 		return sum / (proc.cores.length * Scheduler.currentTime());
 	}
 
+	public Map<User, Integer> getUserDonePackets(){
+		Map<User, Integer> userDonePackets = new HashMap<>();
+		for(Packet packet : proc.donePackets){
+			User user = packet.getUser();
+			if(!userDonePackets.containsKey(user)){
+				userDonePackets.put(user, 1);
+			}else{
+				int packetCount = userDonePackets.get(user);
+				userDonePackets.put(user, ++packetCount);
+			}
+		}
+		return userDonePackets;
+	}
+	
 	public double getObsoletePercent() {
 		return (double) proc.obsoletePackets.size() / (proc.obsoletePackets.size() + proc.donePackets.size());
 	}

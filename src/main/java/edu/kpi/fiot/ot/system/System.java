@@ -2,6 +2,7 @@ package edu.kpi.fiot.ot.system;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Scheduler;
@@ -40,6 +41,22 @@ public class System {
 	
 	public double getWaitTime(){
 		return scheduler.getWaitTime();
+	}
+	
+	public double getFairnessIndex(){
+		Map<User, Integer> userDonePackets = scheduler.getUserDonePackets();
+		
+		long sum1 = 0;
+		long sum2 = 0;
+		for(User user : users){
+			if(userDonePackets.containsKey(user)){
+				int packetCount = userDonePackets.get(user);
+				sum1 += packetCount;
+				sum2 += packetCount * packetCount;
+			}
+		}
+		double result = (sum1 * sum1) / (users.size() * sum2);
+		return result;
 	}
 	
 	public int getUserCount(){

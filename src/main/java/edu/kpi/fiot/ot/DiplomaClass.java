@@ -6,16 +6,19 @@ import org.knowm.xchart.internal.chartpart.Chart;
 import edu.kpi.fiot.ot.test.ChannelCapacityChart;
 import edu.kpi.fiot.ot.test.PacketWaitTimeChart;
 import edu.kpi.fiot.ot.test.SimulationClass;
+import edu.kpi.fiot.ot.test.SystemFairnessIndexChart;
 
 public class DiplomaClass {
 
 	public static void main(String[] args) {
 		SimulationClass simula = new SimulationClass();
-		simula.runSimulation(1, 100, 20);
+		simula.runSimulation(1, 2, 2);
 		Chart channelCapacityChart = new ChannelCapacityChart().getChart(simula);
 		new SwingWrapper<>(channelCapacityChart).displayChart();
 		Chart packetWaitTimeChart = new PacketWaitTimeChart().getChart(simula);
 		new SwingWrapper<>(packetWaitTimeChart).displayChart();
+		Chart systemFairnessChart = new SystemFairnessIndexChart().getChart(simula);
+		new SwingWrapper<>(systemFairnessChart).displayChart();
 	}
 
 	/*private static void runTest() {
