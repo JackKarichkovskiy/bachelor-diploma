@@ -1,7 +1,4 @@
-package edu.kpi.fiot.ot.scheduler;
-
-import edu.kpi.fiot.ot.system.Service;
-import edu.kpi.fiot.ot.system.User;
+package edu.kpi.fiot.ot.system;
 
 public class Packet {
 	private long creatingTime;

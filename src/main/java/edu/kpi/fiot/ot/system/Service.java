@@ -3,8 +3,6 @@ package edu.kpi.fiot.ot.system;
 import edu.kpi.fiot.ot.system.generator.Generator;
 import static edu.kpi.fiot.ot.utils.ProjectUtils.checkNotNull;
 
-import edu.kpi.fiot.ot.scheduler.Packet;
-
 public class Service {
 	
 	private long prevPacketEntryTime = 0;

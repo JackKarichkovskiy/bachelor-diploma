@@ -1,5 +1,7 @@
 package edu.kpi.fiot.ot.scheduler;
 
+import edu.kpi.fiot.ot.system.Packet;
+
 public class Core {
 	private Packet currentPacket;
 

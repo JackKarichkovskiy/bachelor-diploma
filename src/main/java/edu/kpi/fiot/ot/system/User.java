@@ -3,8 +3,6 @@ package edu.kpi.fiot.ot.system;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.kpi.fiot.ot.scheduler.Packet;
-
 public class User {
 
 	private final int id;

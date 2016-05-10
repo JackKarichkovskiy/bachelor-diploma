@@ -1,10 +1,10 @@
 package edu.kpi.fiot.ot.scheduler.pf;
 
 import edu.kpi.fiot.ot.scheduler.Core;
-import edu.kpi.fiot.ot.scheduler.Packet;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.system.Packet;
 
 public class PFProcessor extends Processor {
 

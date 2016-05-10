@@ -7,9 +7,9 @@ import java.util.Set;
 
 import org.springframework.scheduling.config.Task;
 
-import edu.kpi.fiot.ot.scheduler.Packet;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
 

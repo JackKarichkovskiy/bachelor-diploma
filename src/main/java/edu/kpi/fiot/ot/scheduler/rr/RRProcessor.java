@@ -3,10 +3,10 @@ package edu.kpi.fiot.ot.scheduler.rr;
 import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Core;
-import edu.kpi.fiot.ot.scheduler.Packet;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
 
