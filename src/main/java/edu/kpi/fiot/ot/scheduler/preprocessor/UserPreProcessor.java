@@ -2,7 +2,9 @@ package edu.kpi.fiot.ot.scheduler.preprocessor;
 
 import static edu.kpi.fiot.ot.utils.ProjectUtils.checkNotNull;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Packet;
@@ -19,12 +21,16 @@ public class UserPreProcessor implements PreProcessor{
 	private Queue queue;
 	
 	private List<User> users;
+
+	private Random ran = new Random(300);
 	
 	public UserPreProcessor() {
 	}
 	
 	@Override
 	public Packet getNextPacket() {
+		Collections.shuffle(users, ran);
+		
 		Set<User> systemUsers = system.getUsersInSystem();
 		long min = Long.MAX_VALUE;
 		Service minService = null;

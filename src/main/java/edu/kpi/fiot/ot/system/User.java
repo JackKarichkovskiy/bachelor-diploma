@@ -31,7 +31,7 @@ public class User {
 	public long getNextEntryPacketTime(){
 		long min = Long.MAX_VALUE;
 		for(Service service : services){
-			if(min >= service.getNextPacketEntryTime()){
+			if(min > service.getNextPacketEntryTime()){
 				min = service.getNextPacketEntryTime();
 			}
 		}

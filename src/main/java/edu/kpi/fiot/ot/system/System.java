@@ -55,7 +55,7 @@ public class System {
 				sum2 += packetCount * packetCount;
 			}
 		}
-		double result = (sum1 * sum1) / (users.size() * sum2);
+		double result = (double)(sum1 * sum1) / (users.size() * sum2);
 		return result;
 	}
 	

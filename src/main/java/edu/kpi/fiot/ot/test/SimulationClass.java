@@ -1,7 +1,9 @@
 package edu.kpi.fiot.ot.test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
@@ -22,9 +24,9 @@ import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class SimulationClass {
 
-	private static final int CORE_NUMBER = 1;
+	private static final int CORE_NUMBER = 30;
 
-	private static final long TIME_LIMIT = 100;
+	private static final long TIME_LIMIT = 1000;
 
 	private double[] userCounts;
 	
@@ -40,6 +42,8 @@ public class SimulationClass {
 
 	private System[] mtsWithFramework;
 	
+	private Random ran = new Random();
+	
 	public void runSimulation(int start, int end, int step){
 		userCounts = constructUserCounts(start, end, step);
 		
@@ -51,6 +55,47 @@ public class SimulationClass {
 		mtsWithFramework = createMtsWithFramework(userCounts);
 	}
 	
+	private double[] constructUserCounts(int start, int end, int count) {
+		double[] result = new double[count];
+		int step = (end + 1 - start) / count;
+		for (int i = 0, userCount = start; i < result.length; i++, userCount += step) {
+			result[i] = userCount;
+		}
+		return result;
+	}
+
+	private List<Service> constructServices(){
+		List<Service> services =  new ArrayList<Service>() {
+			{
+				add(new Service("Video call", 15, new UniformGenerator(0.025, 0.0667)));
+				add(new Service("Video buffering", 50, new UniformGenerator(0.008, 0.013)));
+				add(new Service("Email service", 100, new UniformGenerator(0.004, 0.005)));
+			}
+		};
+		Collections.shuffle(services, ran);
+		return services;
+	}
+	
+	private User constructUser() {
+		User user = new User();
+		user.setServices(constructServices());
+		return user;
+	}
+
+	private List<User> constructUsers(double userCount) {
+		List<User> users = new ArrayList<>((int) userCount);
+		for (int j = 0; j < userCount; j++) {
+			users.add(constructUser());
+		}
+		return users;
+	}
+
+	private System constructSystemWithoutScheduler(double userCount) {
+		System system = new System();
+		system.setUsers(constructUsers(userCount));
+		return system;
+	}
+
 	private System[] createRrsWithoutFramework(double[] userNums) {
 		java.lang.System.out.println("--------RR without framework--------");
 		System[] result = new System[userNums.length];
@@ -207,45 +252,6 @@ public class SimulationClass {
 		return result;
 	}
 	
-	private double[] constructUserCounts(int start, int end, int count) {
-		double[] result = new double[count];
-		int step = (end + 1 - start) / count;
-		for (int i = 0, userCount = start; i < result.length; i++, userCount += step) {
-			result[i] = userCount;
-		}
-		return result;
-	}
-
-	private List<Service> constructServices(){
-		return new ArrayList<Service>() {
-			{
-				add(new Service("Video call", 15, new UniformGenerator(0.025, 0.0667)));
-				add(new Service("Video buffering", 50, new UniformGenerator(0.008, 0.013)));
-				add(new Service("Email service", 30, new UniformGenerator(0.0143, 0.0222)));
-			}
-		};
-	}
-	
-	private User constructUser() {
-		User user = new User();
-		user.setServices(constructServices());
-		return user;
-	}
-
-	private List<User> constructUsers(double userCount) {
-		List<User> users = new ArrayList<>((int) userCount);
-		for (int j = 0; j < userCount; j++) {
-			users.add(constructUser());
-		}
-		return users;
-	}
-
-	private System constructSystemWithoutScheduler(double userCount) {
-		System system = new System();
-		system.setUsers(constructUsers(userCount));
-		return system;
-	}
-
 	public double[] getUserCounts() {
 		return userCounts;
 	}

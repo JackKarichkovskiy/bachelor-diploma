@@ -12,7 +12,7 @@ public class DiplomaClass {
 
 	public static void main(String[] args) {
 		SimulationClass simula = new SimulationClass();
-		simula.runSimulation(1, 2, 2);
+		simula.runSimulation(1, 50, 25);
 		Chart channelCapacityChart = new ChannelCapacityChart().getChart(simula);
 		new SwingWrapper<>(channelCapacityChart).displayChart();
 		Chart packetWaitTimeChart = new PacketWaitTimeChart().getChart(simula);
