@@ -24,9 +24,13 @@ import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class SimulationClass {
 
-	private static final int CORE_NUMBER = 30;
+	private static final int CORE_NUMBER = 25;
 
-	private static final long TIME_LIMIT = 1000;
+	private static final long TIME_LIMIT = 5000;
+	
+	private static final int MIN_USER_TRANSFER_TIME = 1;
+	
+	private static final int MAX_USER_TRANSFER_TIME = 10;
 
 	private double[] userCounts;
 	
@@ -42,7 +46,7 @@ public class SimulationClass {
 
 	private System[] mtsWithFramework;
 	
-	private Random ran = new Random();
+	private Random ran = new Random(300);
 	
 	public void runSimulation(int start, int end, int step){
 		userCounts = constructUserCounts(start, end, step);
@@ -67,17 +71,22 @@ public class SimulationClass {
 	private List<Service> constructServices(){
 		List<Service> services =  new ArrayList<Service>() {
 			{
-				add(new Service("Video call", 15, new UniformGenerator(0.025, 0.0667)));
-				add(new Service("Video buffering", 50, new UniformGenerator(0.008, 0.013)));
-				add(new Service("Email service", 100, new UniformGenerator(0.004, 0.005)));
+				add(new Service("Video buffering1", 30, new UniformGenerator(0.008, 0.013)));//75-125
+				add(new Service("Video buffering2", 30, new UniformGenerator(0.008, 0.013)));//75-125
+				add(new Service("Video buffering3", 30, new UniformGenerator(0.008, 0.013)));//75-125
+				//add(new Service("Weather service", 10, new UniformGenerator(0.0083, 0.0125)));//80-120
+				//add(new Service("Video buffering", 30, new UniformGenerator(0.005, 0.00667)));//150-200
+				//add(new Service("Email service", 100, new UniformGenerator(0.00143, 0.002))); //500-700
 			}
 		};
-		Collections.shuffle(services, ran);
+		//Collections.shuffle(services, ran);
 		return services;
 	}
 	
 	private User constructUser() {
 		User user = new User();
+		int userTransferTime = MIN_USER_TRANSFER_TIME + ran.nextInt(MAX_USER_TRANSFER_TIME - MIN_USER_TRANSFER_TIME);
+		user.setAverageTransferTime(userTransferTime);
 		user.setServices(constructServices());
 		return user;
 	}

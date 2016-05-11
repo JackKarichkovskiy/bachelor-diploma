@@ -10,6 +10,8 @@ public class User {
 	private static int gen_id = 1;
 	
 	private List<Service> services = new ArrayList<>();
+	
+	private int averageTransferTime;
 
 	public User() {
 		this.id = gen_id++;
@@ -49,6 +51,8 @@ public class User {
 		if(minService != null){
 			Packet packet = minService.pollPacket();
 			packet.setUser(this);
+			long calcLeft = packet.getCalcLeft();
+			packet.setCalcLeft(calcLeft + averageTransferTime);
 			return packet;
 		}
 		return null;
@@ -56,5 +60,13 @@ public class User {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getAverageTransferTime() {
+		return averageTransferTime;
+	}
+
+	public void setAverageTransferTime(int averageTransferTime) {
+		this.averageTransferTime = averageTransferTime;
 	}
 }

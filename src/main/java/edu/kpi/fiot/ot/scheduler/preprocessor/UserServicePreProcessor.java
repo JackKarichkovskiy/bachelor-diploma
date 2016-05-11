@@ -29,7 +29,7 @@ public class UserServicePreProcessor implements PreProcessor {
 
 	@Override
 	public Packet getNextPacket() {
-		Collections.shuffle(users, ran);
+		//Collections.shuffle(users, ran);
 		
 		Set<Service> systemServices = system.getServicesInSystem();
 		long min = Long.MAX_VALUE;

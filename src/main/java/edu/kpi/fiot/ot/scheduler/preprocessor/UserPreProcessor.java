@@ -22,7 +22,7 @@ public class UserPreProcessor implements PreProcessor{
 	
 	private List<User> users;
 
-	private Random ran = new Random(300);
+	private Random ran = new Random(500);
 	
 	public UserPreProcessor() {
 	}
@@ -33,23 +33,19 @@ public class UserPreProcessor implements PreProcessor{
 		
 		Set<User> systemUsers = system.getUsersInSystem();
 		long min = Long.MAX_VALUE;
-		Service minService = null;
+		User minUser = null;
 		for(User user : users){
 			if(!systemUsers.contains(user)){
-				List<Service> services = user.getServices();
-				for (Service service : services) {
-					if (min >= service.getNextPacketEntryTime()) {
-						min = service.getNextPacketEntryTime();
-						minService = service;
-					}
+				long nextEntryPacketTime = user.getNextEntryPacketTime();
+				if (min >= nextEntryPacketTime) {
+					min = nextEntryPacketTime;
+					minUser = user;
 				}
 			}
 		}
 		
-		if(minService != null){
-			Packet packet = minService.pollPacket();
-			packet.setUser(minService.getUser());
-			return packet;
+		if(minUser != null){
+			return minUser.getNextPacket();
 		}
 		return null;
 	}
