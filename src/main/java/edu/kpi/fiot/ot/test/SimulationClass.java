@@ -49,8 +49,8 @@ public class SimulationClass {
 		
 		rrsWithoutFramework = createRrsWithoutFramework(userCounts);
 		rrsWithFramework = createRrsWithFramework(userCounts);
-		pfsWithoutFramework = createPfsWithoutFramework(userCounts);
-		pfsWithFramework = createPfsWithFramework(userCounts);
+		//pfsWithoutFramework = createPfsWithoutFramework(userCounts);
+		//pfsWithFramework = createPfsWithFramework(userCounts);
 		mtsWithoutFramework = createMtsWithoutFramework(userCounts);
 		mtsWithFramework = createMtsWithFramework(userCounts);
 	}

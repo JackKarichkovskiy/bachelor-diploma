@@ -16,15 +16,15 @@ public class PacketWaitTimeChart extends AbstractTestChart {
 		double[] userServiceRRWaitTimes = getSystemChannelWaitTimes(simula.getRrsWithFramework());
 		double[] userMTWaitTimes = getSystemChannelWaitTimes(simula.getMtsWithoutFramework());
 		double[] userServiceMTWaitTimes = getSystemChannelWaitTimes(simula.getMtsWithFramework());
-		double[] userPFWaitTimes = getSystemChannelWaitTimes(simula.getPfsWithoutFramework());
-		double[] userServicePFWaitTimes = getSystemChannelWaitTimes(simula.getPfsWithFramework());
+		//double[] userPFWaitTimes = getSystemChannelWaitTimes(simula.getPfsWithoutFramework());
+		//double[] userServicePFWaitTimes = getSystemChannelWaitTimes(simula.getPfsWithFramework());
 		
 		templateChart.addSeries("RR without framework", userCounts, userRRWaitTimes);
 		templateChart.addSeries("RR with framework", userCounts, userServiceRRWaitTimes);
 		templateChart.addSeries("MT without framework", userCounts, userMTWaitTimes);
 		templateChart.addSeries("MT with framework", userCounts, userServiceMTWaitTimes);
-		templateChart.addSeries("PF without framework", userCounts, userPFWaitTimes);
-		templateChart.addSeries("PF with framework", userCounts, userServicePFWaitTimes);
+		//templateChart.addSeries("PF without framework", userCounts, userPFWaitTimes);
+		//templateChart.addSeries("PF with framework", userCounts, userServicePFWaitTimes);
 		
 		return templateChart;
 	}

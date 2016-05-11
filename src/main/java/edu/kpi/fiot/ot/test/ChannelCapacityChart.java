@@ -16,15 +16,15 @@ public class ChannelCapacityChart extends AbstractTestChart {
 		double[] userServiceRRCapacities = getSystemChannelCapacities(simula.getRrsWithFramework());
 		double[] userMTCapacities = getSystemChannelCapacities(simula.getMtsWithoutFramework());
 		double[] userServiceMTCapacities = getSystemChannelCapacities(simula.getMtsWithFramework());
-		double[] userPFCapacities = getSystemChannelCapacities(simula.getPfsWithoutFramework());
-		double[] userServicePFCapacities = getSystemChannelCapacities(simula.getPfsWithFramework());
+		//double[] userPFCapacities = getSystemChannelCapacities(simula.getPfsWithoutFramework());
+		//double[] userServicePFCapacities = getSystemChannelCapacities(simula.getPfsWithFramework());
 		
 		templateChart.addSeries("RR without framework", userCounts, userRRCapacities);
 		templateChart.addSeries("RR with framework", userCounts, userServiceRRCapacities);
 		templateChart.addSeries("MT without framework", userCounts, userMTCapacities);
 		templateChart.addSeries("MT with framework", userCounts, userServiceMTCapacities);
-		templateChart.addSeries("PF without framework", userCounts, userPFCapacities);
-		templateChart.addSeries("PF with framework", userCounts, userServicePFCapacities);
+		//templateChart.addSeries("PF without framework", userCounts, userPFCapacities);
+		//templateChart.addSeries("PF with framework", userCounts, userServicePFCapacities);
 		
 		return templateChart;
 	}

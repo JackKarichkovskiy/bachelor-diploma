@@ -16,15 +16,15 @@ public class SystemFairnessIndexChart extends AbstractTestChart {
 		double[] userServiceRRFairnesses = getSystemChannelFairness(simula.getRrsWithFramework());
 		double[] userMTFairnesses = getSystemChannelFairness(simula.getMtsWithoutFramework());
 		double[] userServiceMTFairnesses = getSystemChannelFairness(simula.getMtsWithFramework());
-		double[] userPFFairnesses = getSystemChannelFairness(simula.getPfsWithoutFramework());
-		double[] userServicePFFairnesses = getSystemChannelFairness(simula.getPfsWithFramework());
+		//double[] userPFFairnesses = getSystemChannelFairness(simula.getPfsWithoutFramework());
+		//double[] userServicePFFairnesses = getSystemChannelFairness(simula.getPfsWithFramework());
 		
 		templateChart.addSeries("RR without framework", userCounts, userRRFairnesses);
 		templateChart.addSeries("RR with framework", userCounts, userServiceRRFairnesses);
 		templateChart.addSeries("MT without framework", userCounts, userMTFairnesses);
 		templateChart.addSeries("MT with framework", userCounts, userServiceMTFairnesses);
-		templateChart.addSeries("PF without framework", userCounts, userPFFairnesses);
-		templateChart.addSeries("PF with framework", userCounts, userServicePFFairnesses);
+		//templateChart.addSeries("PF without framework", userCounts, userPFFairnesses);
+		//templateChart.addSeries("PF with framework", userCounts, userServicePFFairnesses);
 		
 		return templateChart;
 	}
