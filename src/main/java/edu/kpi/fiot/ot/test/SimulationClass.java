@@ -1,7 +1,6 @@
 package edu.kpi.fiot.ot.test;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -24,13 +23,13 @@ import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class SimulationClass {
 
-	private static final int CORE_NUMBER = 25;
+	private static final int CORE_NUMBER = 40;
 
 	private static final long TIME_LIMIT = 5000;
 	
-	private static final int MIN_USER_TRANSFER_TIME = 1;
+	private static final int MIN_USER_TRANSFER_TIME = 0;
 	
-	private static final int MAX_USER_TRANSFER_TIME = 10;
+	private static final int MAX_USER_TRANSFER_TIME = 1;
 
 	private double[] userCounts;
 	
@@ -71,9 +70,9 @@ public class SimulationClass {
 	private List<Service> constructServices(){
 		List<Service> services =  new ArrayList<Service>() {
 			{
-				add(new Service("Video buffering1", 30, new UniformGenerator(0.008, 0.013)));//75-125
-				add(new Service("Video buffering2", 30, new UniformGenerator(0.008, 0.013)));//75-125
-				add(new Service("Video buffering3", 30, new UniformGenerator(0.008, 0.013)));//75-125
+				//add(new Service("Video buffering2", 30, new UniformGenerator(0.01, 0.02)));//50-100
+				add(new Service("Video buffering1", 10, new UniformGenerator(0.0333, 0.2)));//5-30
+				add(new Service("Video buffering2", 110, new UniformGenerator(0.009, 0.0111)));//90-110
 				//add(new Service("Weather service", 10, new UniformGenerator(0.0083, 0.0125)));//80-120
 				//add(new Service("Video buffering", 30, new UniformGenerator(0.005, 0.00667)));//150-200
 				//add(new Service("Email service", 100, new UniformGenerator(0.00143, 0.002))); //500-700

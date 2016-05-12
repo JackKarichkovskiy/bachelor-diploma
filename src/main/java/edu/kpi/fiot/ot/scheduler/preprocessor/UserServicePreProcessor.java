@@ -48,7 +48,10 @@ public class UserServicePreProcessor implements PreProcessor {
 
 		if (minService != null) {
 			Packet packet = minService.pollPacket();
-			packet.setUser(minService.getUser());
+			User user = minService.getUser();
+			packet.setUser(user);
+			long calcLeft = packet.getCalcLeft();
+			packet.setCalcLeft(calcLeft + user.getAverageTransferTime());
 			return packet;
 		}
 		return null;

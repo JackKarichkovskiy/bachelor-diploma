@@ -59,6 +59,10 @@ public class System {
 		return result;
 	}
 	
+	public double getAverageWaitTime(){
+		return scheduler.getAverageWaitTime();
+	}
+	
 	public int getUserCount(){
 		return users.size();
 	}

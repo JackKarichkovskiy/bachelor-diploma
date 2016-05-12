@@ -52,7 +52,7 @@ public class User {
 			Packet packet = minService.pollPacket();
 			packet.setUser(this);
 			long calcLeft = packet.getCalcLeft();
-			packet.setCalcLeft(calcLeft + averageTransferTime);
+			packet.setCalcLeft(calcLeft + this.averageTransferTime);
 			return packet;
 		}
 		return null;
