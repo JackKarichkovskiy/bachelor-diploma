@@ -3,24 +3,54 @@ package edu.kpi.fiot.ot.system;
 import edu.kpi.fiot.ot.system.generator.Generator;
 import static edu.kpi.fiot.ot.utils.ProjectUtils.checkNotNull;
 
+/**
+ * Class that represents the service entity of the system.
+ */
 public class Service {
 	
+	/**
+	 * The last time packet created.
+	 */
 	private long prevPacketEntryTime = 0;
 
+	/**
+	 * The next time packet will be created.
+	 */
 	private long nextPacketEntryTime;
 
+	/**
+	 * Average transfer time or process time of the service packet.
+	 */
 	private int averageTransferTime;
 
+	/**
+	 * If 0 - traffic is switched off, otherwise - switched on.
+	 */
 	private int trafficLevel = 1;
 
+	/**
+	 * Name of service.
+	 */
 	private String name;
 
+	/**
+	 * User that creates the service.
+	 */
 	private User user;
 	
+	/**
+	 * Generator that identify the packet creation behaviour.
+	 */
 	private Generator gen;
 
+	/**
+	 * ID of service.
+	 */
 	private final int id;
 
+	/**
+	 * Auto incremented number.
+	 */
 	private static int gen_id = 1;
 	
 	public Service() {
@@ -35,6 +65,11 @@ public class Service {
 		this.nextPacketEntryTime = gen.getNextInteger();
 	}
 
+	/**
+	 * Generates new packet if traffic not equals to 0.
+	 * 
+	 * @return new packet.
+	 */
 	public Packet pollPacket() {
 		Packet packet = null;
 		if (trafficLevel != 0) {

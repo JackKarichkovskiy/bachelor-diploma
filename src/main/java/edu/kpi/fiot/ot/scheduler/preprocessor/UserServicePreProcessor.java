@@ -2,35 +2,35 @@ package edu.kpi.fiot.ot.scheduler.preprocessor;
 
 import static edu.kpi.fiot.ot.utils.ProjectUtils.checkNotNull;
 
-import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
-import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
 import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.System;
 import edu.kpi.fiot.ot.system.User;
 
+/**
+ * Implementation of the preprocessor that works in two dimensions (users x services).
+ */
 public class UserServicePreProcessor implements PreProcessor {
-
+	
+	/**
+	 * System with users and services.
+	 */
 	private System system;
 
-	private Queue queue;
-
+	/**
+	 * List of users in the system.
+	 */
 	private List<User> users;
-	
-	private Random ran = new Random(300);
 
 	public UserServicePreProcessor() {
 	}
 
 	@Override
 	public Packet getNextPacket() {
-		//Collections.shuffle(users, ran);
-		
 		Set<Service> systemServices = system.getServicesInSystem();
 		long min = Long.MAX_VALUE;
 		Service minService = null;
@@ -79,9 +79,9 @@ public class UserServicePreProcessor implements PreProcessor {
 		return system;
 	}
 
+	@Override
 	public void setSystem(System system) {
 		this.system = checkNotNull(system);
-		this.queue = system.getScheduler().getQueue();
 		this.users = system.getUsers();
 	}
 

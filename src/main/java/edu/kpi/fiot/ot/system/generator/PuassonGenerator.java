@@ -1,9 +1,18 @@
 package edu.kpi.fiot.ot.system.generator;
 
+/**
+ * The class that represents Puasson stream generator.
+ */
 public class PuassonGenerator implements Generator {
 
+	/**
+	 * The intensity of stream.
+	 */
 	private final double intensity;
 	
+	/**
+	 * The time interval between events.
+	 */
 	private final int timeInterval;
 	
 	public PuassonGenerator(double intensity) {

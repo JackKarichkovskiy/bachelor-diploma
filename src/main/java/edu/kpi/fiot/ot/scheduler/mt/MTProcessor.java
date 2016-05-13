@@ -6,24 +6,17 @@ import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
 import edu.kpi.fiot.ot.system.Packet;
 
+/**
+ * Class that implements processor in the maximum-throughput scheduling.
+ */
 public class MTProcessor extends Processor {
 
 	public MTProcessor(int coreNumber, Queue queue) {
 		super(coreNumber, queue);
 	}
 
-	/*
-	 * @Override public long firstCalcEnd() { nextSolveCore = null; long min =
-	 * Long.MAX_VALUE; for (Core core : cores) { if (!core.isEmpty()) { Packet
-	 * packet = core.getCurrentPacket(); long lastCalcTime =
-	 * packet.getLastCalcTime(); min = Math.min(min, lastCalcTime +
-	 * packet.getCalcLeft()); } }
-	 * 
-	 * return min; }
-	 */
-
+	@Override
 	public void solvePackets() {
-		long currentTime = Scheduler.currentTime();
 		long min = Long.MAX_VALUE;
 		Core solveCore = null;
 		for (Core core : cores) {

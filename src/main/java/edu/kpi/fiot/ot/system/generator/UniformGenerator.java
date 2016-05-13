@@ -2,10 +2,19 @@ package edu.kpi.fiot.ot.system.generator;
 
 import java.util.Random;
 
+/**
+ * The class that represents uniform stream generator.
+ */
 public class UniformGenerator implements Generator {
 
+	/**
+	 * Minimum intensity of a stream.
+	 */
 	private double minIntensity;
 	
+	/**
+	 * Maximum intensity of a stream.
+	 */
 	private double maxIntensity;
 	
 	private Random ran = new Random(400);

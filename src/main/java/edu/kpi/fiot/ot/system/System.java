@@ -7,16 +7,34 @@ import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Scheduler;
 
+/**
+ * Class that represents the whole system that contains of users and its services 
+ * and the scheduler that processes packets that incoming from users.
+ */
 public class System {
 	
+	/**
+	 * List of active users in system.
+	 */
 	private List<User> users;
 	
+	/**
+	 * Scheduler of MAC-layer.
+	 */
 	private Scheduler scheduler;
 
+	/**
+	 * Method that runs the simulation.
+	 */
 	public void run(){
 		scheduler.go();
 	}
 	
+	/**
+	 * Returns set of users which packets are located in queue or processor.
+	 * 
+	 * @return set of users which packets are located in queue or processor.
+	 */
 	public Set<User> getUsersInSystem(){
 		Set<User> users = new HashSet<>();
 		Set<User> usersInQueue = scheduler.getQueue().getUsersInQueue();
@@ -26,6 +44,11 @@ public class System {
 		return users;
 	}
 	
+	/**
+	 * Returns set of services which packets are located in queue or processor.
+	 * 
+	 * @return set of services which packets are located in queue or processor.
+	 */
 	public Set<Service> getServicesInSystem(){
 		Set<Service> services = new HashSet<>();
 		Set<Service> servicesInQueue = scheduler.getQueue().getServicesInQueue();
@@ -35,14 +58,28 @@ public class System {
 		return services;
 	}
 	
+	/**
+	 * Returns calculated channel capacity of system after simulation.
+	 * 
+	 * @return calculated channel capacity of system.
+	 */
 	public double getChannelCapacity(){
 		return scheduler.getChannelCapacity();
 	}
 	
+	/**
+	 * Returns total wait time of packets after simulation.
+	 * 
+	 * @return total wait time of packets.
+	 */
 	public double getWaitTime(){
 		return scheduler.getWaitTime();
 	}
 	
+	/**
+	 * Returns fairness index of system calculated by Jain's formula.
+	 * @return fairness index of system.
+	 */
 	public double getFairnessIndex(){
 		Map<User, Integer> userDonePackets = scheduler.getUserDonePackets();
 		

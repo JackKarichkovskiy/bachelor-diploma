@@ -11,10 +11,16 @@ import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
 
+/**
+ * Class that implements queue in the maximum-throughput scheduling.
+ */
 public class MTQueue extends Queue {
 
 	private long lastEvent = 0;
 
+	/**
+	 * Priority queue that sorts packets by its calculation time.
+	 */
 	private PriorityQueue<Packet> queue = new PriorityQueue<>(new Comparator<Packet>() {
 
 		@Override

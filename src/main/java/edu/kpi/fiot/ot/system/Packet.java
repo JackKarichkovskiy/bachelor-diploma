@@ -1,24 +1,58 @@
 package edu.kpi.fiot.ot.system;
 
+/**
+ * Class that represents the packet in the system.
+ */
 public class Packet {
+	
+	/**
+	 * Time when packet was created and comes to logical channel buffer.
+	 */
 	private long creatingTime;
 
+	/**
+	 * Time when packet came to the scheduler queue.
+	 */
 	private long entryTime;
 
+	/**
+	 * Time when packet is considered as obsoleted.
+	 */
 	private long deadline;
 	
+	/**
+	 * Time that lefts to successfully finish processing of it.
+	 */
 	private long calcLeft;
 
+	/**
+	 * Time when packet was processed last time. 
+	 */
 	private long lastCalcTime;
 
+	/**
+	 * The time of waiting in queues between processing.
+	 */
 	private long waitTime;
 	
+	/**
+	 * User that creates packet.
+	 */
 	private User user;
 	
+	/**
+	 * Service that creates packet.
+	 */
 	private Service service;
 
+	/**
+	 * ID of a packet.
+	 */
 	private final int id;
 
+	/**
+	 * Auto incremented number.
+	 */
 	private static int gen_id = 1;
 	
 	public Packet() {

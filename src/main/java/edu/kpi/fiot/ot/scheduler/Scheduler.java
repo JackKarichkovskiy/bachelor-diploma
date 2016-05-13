@@ -7,28 +7,47 @@ import edu.kpi.fiot.ot.scheduler.preprocessor.PreProcessor;
 import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.User;
 
+/**
+ * Class that coordinates and dispatches the actions of scheduler parts.
+ * Also monitors and look after the virtual time.
+ */
 public class Scheduler {
 
+	/**
+	 * Queue or buffer of scheduling algorithm.
+	 */
 	private Queue queue;
 
+	/**
+	 * Processor or resource of scheduling algorithm.
+	 */
 	private Processor proc;
 
+	/**
+	 * Preprocessor of MAC-layer scheduler.
+	 */
 	private PreProcessor preProc;
 
+	/**
+	 * Limit of time after which the scheduling process ends.
+	 */
 	private long timeLimit;
 
-	// private EntryEvents entryEvents;
-
+	/**
+	 * Number that represents current virtual time in the system.
+	 */
 	private static long currentTime = 0;
 
 	public Scheduler(long timeLimit, Processor proc, PreProcessor preProc) {
 		this.timeLimit = timeLimit;
-		// this.entryEvents = getEntryEvents();
 		this.proc = proc;
 		this.queue = this.proc.queue;
 		this.preProc = preProc;
 	}
 
+	/**
+	 * Method that runs the scheduling process.
+	 */
 	public void go() {
 		currentTime = 0;
 
@@ -41,7 +60,6 @@ public class Scheduler {
 				if (!proc.tryToAddNewPacket(newPacket))
 					queue.addPacket(newPacket);
 			} else {
-				// currentTime = nextCalc;
 				proc.solvePackets();
 			}
 		}
@@ -63,12 +81,22 @@ public class Scheduler {
 		this.proc = proc;
 	}
 
+	/**
+	 * Returns the channel capacity of the system in packets per virtual unit of time.
+	 * 
+	 * @return the channel capacity of the system in packets per virtual unit of time.
+	 */
 	public double getChannelCapacity() {
 		double donePacketsCount = (double) proc.donePackets.size();
 		long currentTime = currentTime();
 		return donePacketsCount / currentTime;
 	}
 
+	/**
+	 * Returns the average wait time of packets in system.
+	 * 
+	 * @return the average wait time of packets in system.
+	 */
 	public double getAverageWaitTime() {
 		double sum = .0;
 		for (Packet task : proc.obsoletePackets) {
@@ -80,6 +108,10 @@ public class Scheduler {
 		return sum / (proc.obsoletePackets.size() + proc.donePackets.size());
 	}
 
+	/**
+	 * Returns the total wait time of packets in system.
+	 * @return the total wait time of packets in system.
+	 */
 	public long getWaitTime() {
 		long sum = 0;
 		for (Packet task : proc.obsoletePackets) {
@@ -91,6 +123,11 @@ public class Scheduler {
 		return sum;
 	}
 
+	/**
+	 * Returns average waiting percent of cores in the system.
+	 * 
+	 * @return average waiting percent of cores in the system.
+	 */
 	public double getAverageCoreWaiting() {
 		double sum = .0;
 		for (Core core : proc.cores) {
@@ -99,6 +136,12 @@ public class Scheduler {
 		return sum / (proc.cores.length * Scheduler.currentTime());
 	}
 
+	/**
+	 * Returns the map where the key is a user in system and
+	 * the value is the count of packets that have done.
+	 * 
+	 * @return the map with user and its done packets.
+	 */
 	public Map<User, Integer> getUserDonePackets(){
 		Map<User, Integer> userDonePackets = new HashMap<>();
 		for(Packet packet : proc.donePackets){
@@ -133,14 +176,4 @@ public class Scheduler {
 			throw new IllegalArgumentException();
 		}
 	}
-
-	// private EntryEvents getEntryEvents() {
-	// long[] entries = new long[taskCount];
-	// for (int i = 0; i < entries.length; i++) {
-	// entries[i] = (long)(i / entryIntensity);
-	// }
-	// EntryEvents entriesObj = new EntryEvents();
-	// entriesObj.entries = entries;
-	// return entriesObj;
-	// }
 }

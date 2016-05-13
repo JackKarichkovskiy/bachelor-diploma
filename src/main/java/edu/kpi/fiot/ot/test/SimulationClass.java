@@ -22,47 +22,91 @@ import edu.kpi.fiot.ot.system.System;
 import edu.kpi.fiot.ot.system.User;
 import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
+/**
+ * Class that runs the simulation of different systems with different entry parameters.
+ */
 public class SimulationClass {
 
+	/**
+	 * Number of cores in systems.
+	 */
 	private static final int CORE_NUMBER = 
 			Integer.parseInt(AppConfiguration.getInstance().getProperty("core_number"));
 
+	/**
+	 * Time limit of simulation.
+	 */
 	private static final long TIME_LIMIT = 
 			Long.parseLong(AppConfiguration.getInstance().getProperty("time_limit"));
 	
+	/**
+	 * Minimum time of transfer for user.
+	 */
 	private static final int MIN_USER_TRANSFER_TIME = 
 			Integer.parseInt(AppConfiguration.getInstance().getProperty("min_user_transfer_time"));
 	
+	/**
+	 * Maximum time of transfer for user.
+	 */
 	private static final int MAX_USER_TRANSFER_TIME = 
 			Integer.parseInt(AppConfiguration.getInstance().getProperty("max_user_transfer_time"));
 
+	/**
+	 * Array of different user count parameters.
+	 */
 	private double[] userCounts;
 	
+	/**
+	 * Array of rr systems without framework after simulation.
+	 */
 	private System[] rrsWithoutFramework;
 
+	/**
+	 * Array of rr systems with framework after simulation.
+	 */
 	private System[] rrsWithFramework;
 
 	private System[] pfsWithoutFramework;
 
 	private System[] pfsWithFramework;
 
+
+	/**
+	 * Array of mt systems without framework after simulation.
+	 */
 	private System[] mtsWithoutFramework;
 
+
+	/**
+	 * Array of mt systems with framework after simulation.
+	 */
 	private System[] mtsWithFramework;
 	
 	private Random ran = new Random(300);
 	
-	public void runSimulation(int start, int end, int step){
-		userCounts = constructUserCounts(start, end, step);
+	/**
+	 * Runs simulation.
+	 * 
+	 * @param start - min user count
+	 * @param end - max user count
+	 * @param pointCount - count of points that needs to be built
+	 */
+	public void runSimulation(int start, int end, int pointCount){
+		userCounts = constructUserCounts(start, end, pointCount);
 		
 		rrsWithoutFramework = createRrsWithoutFramework(userCounts);
 		rrsWithFramework = createRrsWithFramework(userCounts);
-		//pfsWithoutFramework = createPfsWithoutFramework(userCounts);
-		//pfsWithFramework = createPfsWithFramework(userCounts);
 		mtsWithoutFramework = createMtsWithoutFramework(userCounts);
 		mtsWithFramework = createMtsWithFramework(userCounts);
 	}
 	
+	/**
+	 * Constructs array of user counts.
+	 * @param start - min user count
+	 * @param end - max user count
+	 * @param count - count of points that needs to be built
+	 * @return array of point counts
+	 */
 	private double[] constructUserCounts(int start, int end, int count) {
 		double[] result = new double[count];
 		int step = (end + 1 - start) / count;
@@ -72,6 +116,11 @@ public class SimulationClass {
 		return result;
 	}
 
+	/**
+	 * Constructs list of services.
+	 * 
+	 * @return list of services.
+	 */
 	private List<Service> constructServices(){
 		List<Service> services =  new ArrayList<Service>() {
 			{
@@ -83,10 +132,14 @@ public class SimulationClass {
 				//add(new Service("Email service", 100, new UniformGenerator(0.00143, 0.002))); //500-700
 			}
 		};
-		//Collections.shuffle(services, ran);
 		return services;
 	}
 	
+	/**
+	 * Constructs user with random transfer time.
+	 * 
+	 * @return constructed user.
+	 */
 	private User constructUser() {
 		User user = new User();
 		int userTransferTime = MIN_USER_TRANSFER_TIME + ran.nextInt(MAX_USER_TRANSFER_TIME - MIN_USER_TRANSFER_TIME);
@@ -95,6 +148,12 @@ public class SimulationClass {
 		return user;
 	}
 
+	/**
+	 * Constructs list of users.
+	 * 
+	 * @param userCount - user count that needs to be constructed
+	 * @return list of users
+	 */
 	private List<User> constructUsers(double userCount) {
 		List<User> users = new ArrayList<>((int) userCount);
 		for (int j = 0; j < userCount; j++) {
@@ -103,12 +162,24 @@ public class SimulationClass {
 		return users;
 	}
 
+	/**
+	 * Construct system without setting the scheduler object.
+	 * 
+	 * @param userCount - count of users
+	 * @return constructed system
+	 */
 	private System constructSystemWithoutScheduler(double userCount) {
 		System system = new System();
 		system.setUsers(constructUsers(userCount));
 		return system;
 	}
 
+	/**
+	 * Runs the simulation of rr systems without framework with different count of users.
+	 * 
+	 * @param userNums - array of different entry numbers of users
+	 * @return simulated systems
+	 */
 	private System[] createRrsWithoutFramework(double[] userNums) {
 		java.lang.System.out.println("--------RR without framework--------");
 		System[] result = new System[userNums.length];
@@ -135,6 +206,12 @@ public class SimulationClass {
 		return result;
 	}
 	
+	/**
+	 * Runs the simulation of rr systems with framework with different count of users.
+	 * 
+	 * @param userNums - array of different entry numbers of users
+	 * @return simulated systems
+	 */
 	private System[] createRrsWithFramework(double[] userNums) {
 		java.lang.System.out.println("--------RR with framework--------");
 		System[] result = new System[userNums.length];
@@ -213,6 +290,12 @@ public class SimulationClass {
 		return result;
 	}
 	
+	/**
+	 * Runs the simulation of mt systems without framework with different count of users.
+	 * 
+	 * @param userNums - array of different entry numbers of users
+	 * @return simulated systems
+	 */
 	private System[] createMtsWithoutFramework(double[] userNums) {
 		java.lang.System.out.println("--------MT without framework--------");
 		System[] result = new System[userNums.length];
@@ -239,6 +322,12 @@ public class SimulationClass {
 		return result;
 	}
 	
+	/**
+	 * Runs the simulation of mt systems with framework with different count of users.
+	 * 
+	 * @param userNums - array of different entry numbers of users
+	 * @return simulated systems
+	 */
 	private System[] createMtsWithFramework(double[] userNums) {
 		java.lang.System.out.println("--------MT with framework--------");
 		System[] result = new System[userNums.length];

@@ -1,35 +1,27 @@
 package edu.kpi.fiot.ot.scheduler.rr;
 
-import java.util.Set;
-
 import edu.kpi.fiot.ot.scheduler.Core;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
 import edu.kpi.fiot.ot.system.Packet;
-import edu.kpi.fiot.ot.system.Service;
-import edu.kpi.fiot.ot.system.User;
 
+/**
+ * Class that implements processor in the round-robin scheduling.
+ */
 public class RRProcessor extends Processor {
 
+	/**
+	 * Field that stores current core number that will be processed in the next time.
+	 */
 	private int currentCoreNum = 0;
 
 	public RRProcessor(int coreNumber, Queue queue) {
 		super(coreNumber, queue);
 	}
-
-	/*
-	 * @Override public long firstCalcEnd() { nextSolveCore = null; long min =
-	 * Long.MAX_VALUE; for (Core core : cores) { if (!core.isEmpty()) { Packet
-	 * packet = core.getCurrentPacket(); long lastCalcTime =
-	 * packet.getLastCalcTime(); min = Math.min(min, lastCalcTime +
-	 * packet.getCalcLeft()); } }
-	 * 
-	 * return min; }
-	 */
-
+	
+	@Override
 	public void solvePackets() {
-		long currentTime = Scheduler.currentTime();
 		long min = Long.MAX_VALUE;
 		Core solveCore = null;
 		for (Core core : cores) {
