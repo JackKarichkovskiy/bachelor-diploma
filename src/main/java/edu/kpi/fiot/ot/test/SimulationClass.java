@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import edu.kpi.fiot.ot.configuration.AppConfiguration;
 import edu.kpi.fiot.ot.scheduler.Processor;
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
@@ -23,13 +24,17 @@ import edu.kpi.fiot.ot.system.generator.UniformGenerator;
 
 public class SimulationClass {
 
-	private static final int CORE_NUMBER = 40;
+	private static final int CORE_NUMBER = 
+			Integer.parseInt(AppConfiguration.getInstance().getProperty("core_number"));
 
-	private static final long TIME_LIMIT = 5000;
+	private static final long TIME_LIMIT = 
+			Long.parseLong(AppConfiguration.getInstance().getProperty("time_limit"));
 	
-	private static final int MIN_USER_TRANSFER_TIME = 0;
+	private static final int MIN_USER_TRANSFER_TIME = 
+			Integer.parseInt(AppConfiguration.getInstance().getProperty("min_user_transfer_time"));
 	
-	private static final int MAX_USER_TRANSFER_TIME = 1;
+	private static final int MAX_USER_TRANSFER_TIME = 
+			Integer.parseInt(AppConfiguration.getInstance().getProperty("max_user_transfer_time"));
 
 	private double[] userCounts;
 	
