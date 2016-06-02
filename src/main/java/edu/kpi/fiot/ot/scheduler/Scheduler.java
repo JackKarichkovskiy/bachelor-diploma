@@ -88,7 +88,8 @@ public class Scheduler {
 	 */
 	public double getChannelCapacity() {
 		double donePacketsCount = (double) proc.donePackets.size();
-		long currentTime = currentTime();
+		//long currentTime = currentTime();
+		long currentTime = timeLimit;
 		return donePacketsCount / currentTime;
 	}
 
@@ -133,7 +134,7 @@ public class Scheduler {
 		for (Core core : proc.cores) {
 			sum += core.getWaitTime();
 		}
-		return sum / (proc.cores.length * Scheduler.currentTime());
+		return sum / (proc.cores.length * timeLimit);
 	}
 
 	/**

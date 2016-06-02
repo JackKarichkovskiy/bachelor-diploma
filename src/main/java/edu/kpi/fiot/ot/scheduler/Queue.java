@@ -17,7 +17,7 @@ public abstract class Queue {
 	 */
 	protected long queueSizeTime = 0;
 	
-	protected static final int QUEUE_SIZE_LIMIT = 2 * SimulationClass.CORE_NUMBER;
+	protected static final int QUEUE_SIZE_LIMIT = (int) (2.5 * SimulationClass.CORE_NUMBER);
 
 	/**
 	 * Returns the packet from the head of queue.
