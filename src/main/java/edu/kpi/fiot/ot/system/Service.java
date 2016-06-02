@@ -76,7 +76,7 @@ public class Service {
 			prevPacketEntryTime = nextPacketEntryTime;
 
 			packet = new Packet();
-			packet.setCreatingTime(prevPacketEntryTime);
+			packet.setCreatingTime(nextPacketEntryTime);
 			packet.setCalcLeft(averageTransferTime);
 			packet.setService(this);
 		}
