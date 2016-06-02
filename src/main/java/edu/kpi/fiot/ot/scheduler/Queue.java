@@ -5,6 +5,7 @@ import java.util.Set;
 import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
+import edu.kpi.fiot.ot.test.SimulationClass;
 
 /**
  * Abstract class that represents the queue of tasks or packets in scheduling algorithm.
@@ -15,6 +16,8 @@ public abstract class Queue {
 	 * The statistic time of being in some state.
 	 */
 	protected long queueSizeTime = 0;
+	
+	protected static final int QUEUE_SIZE_LIMIT = 2 * SimulationClass.CORE_NUMBER;
 
 	/**
 	 * Returns the packet from the head of queue.

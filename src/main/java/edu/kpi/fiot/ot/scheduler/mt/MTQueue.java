@@ -45,6 +45,10 @@ public class MTQueue extends Queue {
 
 	@Override
 	public void addPacket(Packet packet) {
+		/*if(queue.size() >= QUEUE_SIZE_LIMIT){
+			return;
+		}*/
+		
 		System.out.println("[INFO]-" + Scheduler.currentTime() + ": " + packet + " adding to the queue");
 		packet.setEntryTime(Scheduler.currentTime());
 		queue.add(packet);

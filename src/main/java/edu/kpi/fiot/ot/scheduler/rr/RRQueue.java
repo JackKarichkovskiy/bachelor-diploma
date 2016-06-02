@@ -6,6 +6,7 @@ import java.util.Set;
 
 import edu.kpi.fiot.ot.scheduler.Queue;
 import edu.kpi.fiot.ot.scheduler.Scheduler;
+import edu.kpi.fiot.ot.scheduler.preprocessor.UserServicePreProcessor;
 import edu.kpi.fiot.ot.system.Packet;
 import edu.kpi.fiot.ot.system.Service;
 import edu.kpi.fiot.ot.system.User;
@@ -31,6 +32,11 @@ public class RRQueue extends Queue {
 
 	@Override
 	public void addPacket(Packet packet) {
+		/*if(Scheduler.preProc.getClass() == UserServicePreProcessor.class
+				&& queue.size() >= QUEUE_SIZE_LIMIT){
+			return;
+		}*/
+		
 		System.out.println("[INFO]-" + Scheduler.currentTime() + ": " + packet + " adding to the queue");
 		packet.setEntryTime(Scheduler.currentTime());
 		queue.addFirst(packet);

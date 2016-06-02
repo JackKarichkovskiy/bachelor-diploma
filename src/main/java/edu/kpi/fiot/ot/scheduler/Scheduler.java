@@ -26,7 +26,7 @@ public class Scheduler {
 	/**
 	 * Preprocessor of MAC-layer scheduler.
 	 */
-	private PreProcessor preProc;
+	public static PreProcessor preProc;
 
 	/**
 	 * Limit of time after which the scheduling process ends.
