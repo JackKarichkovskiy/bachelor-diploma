@@ -55,6 +55,11 @@ public class Packet {
 	 */
 	private static int gen_id = 1;
 	
+	/**
+	 * Number of data bytes.
+	 */
+	private int byteCount;
+	
 	public Packet() {
 		this.id = gen_id++;
 	}
@@ -142,6 +147,14 @@ public class Packet {
 		this.service = service;
 	}
 	
+	public int getByteCount() {
+		return byteCount;
+	}
+
+	public void setByteCount(int byteCount) {
+		this.byteCount = byteCount;
+	}
+
 	@Override
 	public String toString() {
 		return "Packet " + getId() + "-U" + getUser().getId() + "-S" + getService().getId() + "(" + getCalcLeft() +")";

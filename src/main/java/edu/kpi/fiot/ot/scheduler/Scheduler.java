@@ -87,10 +87,12 @@ public class Scheduler {
 	 * @return the channel capacity of the system in packets per virtual unit of time.
 	 */
 	public double getChannelCapacity() {
-		double donePacketsCount = (double) proc.donePackets.size();
-		//long currentTime = currentTime();
+		double sumOfSysCapacity = .0;
+		for(Packet packet : proc.donePackets){
+			sumOfSysCapacity += packet.getByteCount();
+		}
 		long currentTime = timeLimit;
-		return donePacketsCount / currentTime;
+		return sumOfSysCapacity / currentTime;
 	}
 
 	/**

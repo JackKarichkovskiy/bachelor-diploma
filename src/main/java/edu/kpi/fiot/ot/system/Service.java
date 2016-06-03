@@ -24,6 +24,11 @@ public class Service {
 	private int averageTransferTime;
 
 	/**
+	 * Byte count in packets in this type of service.
+	 */
+	private int packetByteCount;
+	
+	/**
 	 * If 0 - traffic is switched off, otherwise - switched on.
 	 */
 	private int trafficLevel = 1;
@@ -57,12 +62,13 @@ public class Service {
 		this.id = gen_id++;
 	}
 	
-	public Service(String name, int averageTransferTime, Generator gen) {
+	public Service(String name, int averageTransferTime, int packetByteCount, Generator gen) {
 		this();
 		this.name = checkNotNull(name);
 		this.gen = checkNotNull(gen);
 		this.averageTransferTime = averageTransferTime;
 		this.nextPacketEntryTime = gen.getNextInteger();
+		this.packetByteCount = packetByteCount;
 	}
 
 	/**
@@ -78,6 +84,7 @@ public class Service {
 			packet = new Packet();
 			packet.setCreatingTime(nextPacketEntryTime);
 			packet.setCalcLeft(averageTransferTime);
+			packet.setByteCount(packetByteCount);
 			packet.setService(this);
 		}
 
@@ -119,5 +126,13 @@ public class Service {
 
 	public int getId() {
 		return id;
+	}
+
+	public int getPacketByteCount() {
+		return packetByteCount;
+	}
+
+	public void setPacketByteCount(int packetByteCount) {
+		this.packetByteCount = packetByteCount;
 	}
 }
