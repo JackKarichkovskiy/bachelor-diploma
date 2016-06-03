@@ -9,7 +9,7 @@ public class ChannelCapacityChart extends AbstractTestChart {
 	
 	@Override
 	public Chart getChart(SimulationClass simula) {
-		XYChart templateChart = getTemplateChart("Channel Capacity Chart", "User count", "Channel Capacity");
+		XYChart templateChart = getTemplateChart("Channel Capacity Chart", "User count", "Channel Capacity(bytes/sec)");
 		
 		double[] userCounts = simula.getUserCounts();
 		double[] userRRCapacities = getSystemChannelCapacities(simula.getRrsWithoutFramework());

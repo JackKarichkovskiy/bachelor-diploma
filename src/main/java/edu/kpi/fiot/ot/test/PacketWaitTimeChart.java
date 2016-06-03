@@ -9,7 +9,7 @@ public class PacketWaitTimeChart extends AbstractTestChart {
 	
 	@Override
 	public Chart getChart(SimulationClass simula) {
-		XYChart templateChart = getTemplateChart("Packet Wait Time Chart", "User count", "Total Wait Time");
+		XYChart templateChart = getTemplateChart("Packet Wait Time Chart", "User count", "Total Wait Time(sec)");
 		
 		double[] userCounts = simula.getUserCounts();
 		double[] userRRWaitTimes = getSystemChannelWaitTimes(simula.getRrsWithoutFramework());
