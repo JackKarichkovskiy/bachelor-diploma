@@ -124,10 +124,8 @@ public class SimulationClass {
 	private List<Service> constructServices(){
 		List<Service> services =  new ArrayList<Service>() {
 			{
+				add(new Service("Video buffering1", 100, new UniformGenerator(0.004, 0.006666)));//150-250
 				add(new Service("Video buffering1", 30, new UniformGenerator(0.01, 0.0133)));//75-100
-				add(new Service("Video buffering1", 30, new UniformGenerator(0.01, 0.0133)));//75-100
-				add(new Service("Video buffering1", 100, new UniformGenerator(0.004, 0.00667)));//150-250
-				add(new Service("Video buffering1", 100, new UniformGenerator(0.00667, 0.008)));//125-150
 				//add(new Service("Video buffering1", 30, new UniformGenerator(0.008, 0.01)));//100-125
 				//add(new Service("Weather service", 10, new UniformGenerator(0.0111, 0.02)));//50-90
 				//add(new Service("Email service", 100, new UniformGenerator(0.00143, 0.002))); //500-700
